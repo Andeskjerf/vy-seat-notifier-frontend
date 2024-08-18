@@ -4,7 +4,7 @@
   --accent-dark-color: #00344a;
   --text-color: #000;
 
-	--border-width: 1px;
+  --border-width: 1px;
 
   --br-search: 12px;
 }
@@ -76,7 +76,7 @@
 }
 
 .flex-column {
-	flex-direction: column;
+  flex-direction: column;
 }
 
 .search-container {
@@ -104,12 +104,20 @@
   padding: 18px;
 }
 
+.pr-6 {
+  padding-right: 6px;
+}
+
+.pl-6 {
+  padding-left: 6px;
+}
+
 .m-6 {
-	margin: 6px;
+  margin: 6px;
 }
 
 .text-label {
-	font-size: 12px;
+  font-size: 12px;
 }
 
 .suggestions-container {
@@ -170,21 +178,35 @@
   text-align: start;
 }
 
+.content-align-center {
+  align-content: center;
+}
+
+.self-align-center {
+  align-self: center;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}
+
 .seperator {
-	width: 90%;
-	height: 1px;
-	background-color: grey;
-	margin: auto;
+  width: 90%;
+  height: 1px;
+  background-color: grey;
+  margin: auto;
 }
 
 .hover-overlay {
-	background-color: rgba(var(--accent-color), 0);
+  background-color: rgba(var(--accent-color), 0);
+  transition-property: background-color;
+  transition-duration: 100ms;
 }
 
 .hover-overlay:hover {
-	background-color: rgba(var(--accent-color), 0.2);
+  background-color: rgba(var(--accent-color), 0.2);
 }
 
 .search-input {
-	width: 300px;
+  width: 300px;
 }

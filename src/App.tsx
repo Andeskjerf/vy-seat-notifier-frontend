@@ -2,9 +2,12 @@ import { useState } from 'react'
 import './App.css'
 import Search from './components/Search'
 import { RoundState } from './components/Search'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrain, faBusSimple } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   const [activeSearch, setActiveSearch] = useState<number>(-1)
+  library.add(faTrain, faBusSimple)
 
   return (
     <>

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './Search.css'
 import { API_URL } from '../Consts'
 import { SearchLocation } from '../models/SearchLocation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export enum RoundState {
   Left = 'round-left',
@@ -42,7 +43,7 @@ function dummyApiResponse(name: string, description: string): SearchLocation {
         name: 'Togstasjon',
       },
       {
-        id: 'bus-top',
+        id: 'bus-stop',
         name: '',
       },
     ],
@@ -60,7 +61,7 @@ function dummyApiResponse(name: string, description: string): SearchLocation {
   return SearchLocation.fromJson(response)
 }
 
-async function makeApiRequest(search: string[]): Promise<SearchLocation[]> {
+async function makeApiRequest(search: string): Promise<SearchLocation[]> {
   // we're not allowed to make a GET request to Vy from our website
   // we need our own server that does it on our behalf
   // in the meantime, dummy function
@@ -88,16 +89,31 @@ async function makeApiRequest(search: string[]): Promise<SearchLocation[]> {
 
 function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
+
+  const categories = result.categories.map((entry, index) => {
+		let icon = ''
+		switch (entry.id) {
+			case 'railway-station':
+				icon = 'train'
+				break
+			case 'bus-stop':
+				icon = 'bus-simple'
+				break
+		}
+    return <FontAwesomeIcon icon={icon} key={entry.id} className='self-align-center pl-6' />
+  })
+
   return (
     <>
       <div
         onClick={() => callback(result)}
-        className={`${class_} hover-overlay text-align-start text-black p-10 no-select pointer-cursor round-both m-6`}
+        className={`${class_} hover-overlay text-align-start text-black p-10 no-select pointer-cursor round-both m-6 flex flex-space-between`}
       >
         <div className='flex flex-column'>
           <div>{result.name}</div>
           <div className='text-label'>{result.description}</div>
         </div>
+        <div className='flex'>{categories}</div>
       </div>
     </>
   )
@@ -132,7 +148,7 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
   const [searched, setSearched] = useState<string[]>([])
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
   const [searchResults, setSearchResults] = useState<SearchLocation[]>([])
-  const [selectedEntry, setSelectedEntry] = useState<string>('')
+  const [selectedEntry, setSelectedEntry] = useState<SearchLocation>()
 
   function handleInput(text: string) {
     clearTimeout(autosuggest)
@@ -151,13 +167,13 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
     }
   }
 
-  function setEntry(text: string) {
+  function setEntry(result: SearchLocation) {
     const input = document.getElementById(
       `search-${id}`,
     ) as HTMLInputElement | null
     if (input != null) {
-      input.value = text
-      setSelectedEntry(text)
+      input.value = result.name
+      setSelectedEntry(result)
       activeCallback(-1)
     }
   }
