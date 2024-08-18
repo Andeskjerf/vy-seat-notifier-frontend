@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './Search.css'
 import { API_URL } from '../Consts'
+import { SearchLocation } from '../models/SearchLocation'
 
 export enum RoundState {
   Left = 'round-left',
@@ -17,12 +18,12 @@ interface SearchProps {
 
 interface SuggestionsBoxProps {
   isVisible: boolean
-  results: string[]
+  results: SearchLocation[]
   callback: Function
 }
 
 interface SuggestionEntryProps {
-  text: string
+  result: SearchLocation
   isLast: boolean
   callback: Function
 }
@@ -31,12 +32,50 @@ function makeSearchUrl(search: string): string {
   return `${API_URL}/services/location/places/autosuggest?query=${search}&searchOrigin=default`
 }
 
-async function makeApiRequest(search: string[]) {
+function dummyApiResponse(name: string, description: string): SearchLocation {
+  const response = {
+    id: '',
+    name: `${name}`,
+    categories: [
+      {
+        id: 'railway-station',
+        name: 'Togstasjon',
+      },
+      {
+        id: 'bus-top',
+        name: '',
+      },
+    ],
+    position: {
+      latitude: 0,
+      longitude: 0,
+    },
+    shortDescription: `${description}`,
+    externalReferences: [],
+    debugInfo: {
+      origin: '',
+    },
+  }
+
+  return SearchLocation.fromJson(response)
+}
+
+async function makeApiRequest(search: string[]): Promise<SearchLocation[]> {
   // we're not allowed to make a GET request to Vy from our website
   // we need our own server that does it on our behalf
   // in the meantime, dummy function
   return new Promise((resolve) => {
-    setTimeout(() => resolve(['some suggestions', 'yooo']), 500)
+    setTimeout(
+      () =>
+        resolve([
+          dummyApiResponse('Oslo S', 'Knutepunkt i Oslo'),
+          dummyApiResponse(
+            'Scandic Oslo Airport',
+            'Stoppested i Nannestad, Akershus',
+          ),
+        ]),
+      500,
+    )
   })
 
   // return await fetch(makeSearchUrl(search), {
@@ -47,15 +86,18 @@ async function makeApiRequest(search: string[]) {
   // })
 }
 
-function SuggestionEntry({ text, isLast, callback }: SuggestionEntryProps) {
+function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
   return (
     <>
       <div
-        onClick={() => callback(text)}
-        className={`${class_} hover-overlay text-align-start text-black p-10 no-select pointer-cursor`}
+        onClick={() => callback(result)}
+        className={`${class_} hover-overlay text-align-start text-black p-10 no-select pointer-cursor round-both m-6`}
       >
-        {text}
+        <div className='flex flex-column'>
+          <div>{result.name}</div>
+          <div className='text-label'>{result.description}</div>
+        </div>
       </div>
     </>
   )
@@ -70,7 +112,7 @@ function SuggestionsBox({ isVisible, results, callback }: SuggestionsBoxProps) {
     <>
       <SuggestionEntry
         key={index}
-        text={entry}
+        result={entry}
         isLast={index == results.length - 1}
         callback={callback}
       />
@@ -89,7 +131,7 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
   const [autosuggest, setAutosuggest] = useState<number | undefined>()
   const [searched, setSearched] = useState<string[]>([])
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
-  const [searchResults, setSearchResults] = useState<string[]>([])
+  const [searchResults, setSearchResults] = useState<SearchLocation[]>([])
   const [selectedEntry, setSelectedEntry] = useState<string>('')
 
   function handleInput(text: string) {
@@ -116,7 +158,7 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
     if (input != null) {
       input.value = text
       setSelectedEntry(text)
-			activeCallback(-1)
+      activeCallback(-1)
     }
   }
 
@@ -136,12 +178,13 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
       // onBlur={() => activeCallback(-1)}
     >
       <div
-        className={`${isActive ? 'active-border' : ''} ${round} white-bg border-hover`}
+        className={`${isActive ? 'active-border ' : ''} ${isActive && showSuggestions ? 'no-round-bottom' : ''} ${round} white-bg border-hover`}
       >
         <input
           id={`search-${id}`}
+          placeholder='Skriv for å søke...'
           onChange={(text) => handleInput(text.target.value)}
-          className='input-nobg text-black p-10'
+          className='input-nobg text-black p-18 search-input'
           type='text'
         />
       </div>
