@@ -18,11 +18,13 @@ interface SearchProps {
 interface SuggestionsBoxProps {
   isVisible: boolean
   results: string[]
+  callback: Function
 }
 
 interface SuggestionEntryProps {
   text: string
   isLast: boolean
+  callback: Function
 }
 
 function makeSearchUrl(search: string): string {
@@ -45,11 +47,12 @@ async function makeApiRequest(search: string[]) {
   // })
 }
 
-function SuggestionEntry({ text, isLast }: SuggestionEntryProps) {
+function SuggestionEntry({ text, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
   return (
     <>
       <div
+        onClick={() => callback(text)}
         className={`${class_} hover-overlay text-align-start text-black p-10 no-select pointer-cursor`}
       >
         {text}
@@ -58,7 +61,7 @@ function SuggestionEntry({ text, isLast }: SuggestionEntryProps) {
   )
 }
 
-function SuggestionsBox({ isVisible, results }: SuggestionsBoxProps) {
+function SuggestionsBox({ isVisible, results, callback }: SuggestionsBoxProps) {
   if (!isVisible) {
     return null
   }
@@ -69,6 +72,7 @@ function SuggestionsBox({ isVisible, results }: SuggestionsBoxProps) {
         key={index}
         text={entry}
         isLast={index == results.length - 1}
+        callback={callback}
       />
       {index != results.length - 1 ? <div className='seperator'></div> : null}
     </>
@@ -86,6 +90,7 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
   const [searched, setSearched] = useState<string[]>([])
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
   const [searchResults, setSearchResults] = useState<string[]>([])
+  const [selectedEntry, setSelectedEntry] = useState<string>('')
 
   function handleInput(text: string) {
     clearTimeout(autosuggest)
@@ -104,6 +109,17 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
     }
   }
 
+  function setEntry(text: string) {
+    const input = document.getElementById(
+      `search-${id}`,
+    ) as HTMLInputElement | null
+    if (input != null) {
+      input.value = text
+      setSelectedEntry(text)
+			activeCallback(-1)
+    }
+  }
+
   if (!isActive && showSuggestions) {
     setShowSuggestions(false)
     clearTimeout(autosuggest)
@@ -114,19 +130,26 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
   }
 
   return (
-    <div className='search-container'>
+    <div
+      className='search-container'
+      onFocus={() => activeCallback(id)}
+      // onBlur={() => activeCallback(-1)}
+    >
       <div
         className={`${isActive ? 'active-border' : ''} ${round} white-bg border-hover`}
       >
         <input
+          id={`search-${id}`}
           onChange={(text) => handleInput(text.target.value)}
-          onFocus={() => activeCallback(id)}
-          onBlur={() => activeCallback(-1)}
           className='input-nobg text-black p-10'
           type='text'
         />
       </div>
-      <SuggestionsBox isVisible={showSuggestions} results={searchResults} />
+      <SuggestionsBox
+        isVisible={showSuggestions}
+        results={searchResults}
+        callback={setEntry}
+      />
     </div>
   )
 }

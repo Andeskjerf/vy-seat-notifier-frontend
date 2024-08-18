@@ -4,10 +4,7 @@ import Search from './components/Search'
 import { RoundState } from './components/Search'
 
 function App() {
-  // -1, none
-  // 0 and 1, left and right
   const [activeSearch, setActiveSearch] = useState<number>(-1)
-	console.log(activeSearch)
 
   return (
     <>
