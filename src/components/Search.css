@@ -91,6 +91,10 @@
   padding: 10px;
 }
 
+.p-18 {
+  padding: 18px;
+}
+
 .suggestions-container {
   position: absolute;
   width: 100%;
@@ -100,9 +104,9 @@
   --size: 32px;
   width: var(--size);
   height: var(--size);
-  margin: 12px;
+  margin: 18px;
   display: block;
-  margin: 15px auto;
+  margin: 18px auto;
   position: relative;
   color: var(--accent-dark-color);
   box-sizing: border-box;
