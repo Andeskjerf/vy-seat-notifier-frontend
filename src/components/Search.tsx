@@ -121,6 +121,7 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
         <input
           onChange={(text) => handleInput(text.target.value)}
           onFocus={() => activeCallback(id)}
+          onBlur={() => activeCallback(-1)}
           className='input-nobg text-black p-10'
           type='text'
         />
