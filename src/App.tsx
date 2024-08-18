@@ -9,9 +9,18 @@ function App() {
   return (
     <>
       <div className='flex'>
-        <Search id={0} activeCallback={setActiveSearch} isActive={activeSearch == 0} round={RoundState.Left} />
-        <div className='search-divider'></div>
-        <Search id={1} activeCallback={setActiveSearch} isActive={activeSearch == 1} round={RoundState.Right} />
+        <Search
+          id={0}
+          activeCallback={setActiveSearch}
+          isActive={activeSearch == 0}
+          round={RoundState.Left}
+        />
+        <Search
+          id={1}
+          activeCallback={setActiveSearch}
+          isActive={activeSearch == 1}
+          round={RoundState.Right}
+        />
       </div>
     </>
   )
