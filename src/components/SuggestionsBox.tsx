@@ -12,6 +12,8 @@ function SuggestionsBox({ isVisible, results, callback }: SuggestionsBoxProps) {
     return null
   }
 
+  results.sort((a, b) => b.categories.length - a.categories.length)
+
   const entries = results.map((entry, index) => (
     <>
       <SuggestionEntry
