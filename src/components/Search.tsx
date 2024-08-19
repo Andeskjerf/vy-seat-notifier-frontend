@@ -15,6 +15,7 @@ interface SearchProps {
   round: RoundState
   isActive: boolean
   activeCallback: Function
+	searchCallback: Function
 }
 
 function makeSearchUrl(search: string): string {
@@ -68,7 +69,7 @@ function levenshteinDistance(a: string, b: string) {
   return arr[a.length][b.length]
 }
 
-function Search({ round, isActive, activeCallback, id }: SearchProps) {
+function Search({ round, isActive, activeCallback, searchState, id }: SearchProps) {
   const autosuggest = useRef<number | undefined>()
   const searched = useRef<string[]>([])
   const cachedResults = useRef<SearchLocation[]>([])
