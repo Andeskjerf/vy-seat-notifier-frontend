@@ -60,7 +60,7 @@ function getIconForStop(id: string): string {
     case 'metro-station':
       return 'train-subway'
     case 'bus-stop':
-    case 'bus-station':
+    // case 'bus-station':
       return 'bus-simple'
     case 'airport':
       return 'plane-departure'
