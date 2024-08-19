@@ -70,6 +70,39 @@ function getIconForStop(id: string): string {
   }
 }
 
+function levenshteinDistance(a: string, b: string) {
+  const arr: number[][] = Array.from({ length: a.length + 1 }, () =>
+    Array(b.length + 1).fill(0),
+  )
+
+  for (let i = 0; i <= a.length; i++) {
+    arr[i][0] = i
+  }
+
+  for (let j = 0; j <= b.length; j++) {
+    arr[0][j] = j
+  }
+
+  for (let j = 1; j <= b.length; j++) {
+    for (let i = 1; i <= a.length; i++) {
+      let cost = 0
+      if (a[i - 1] == b[j - 1]) {
+        cost = 0
+      } else {
+        cost = 1
+      }
+
+      arr[i][j] = Math.min(
+        arr[i - 1][j] + 1,
+        arr[i][j - 1] + 1,
+        arr[i - 1][j - 1] + cost,
+      )
+    }
+  }
+
+  return arr[a.length][b.length]
+}
+
 function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
 
@@ -159,6 +192,15 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
         searched.current = [...searched.current, text]
         setSearchResults(results)
       }, 1000)
+    } else if (text != '' && searched.current.includes(text)) {
+      setShowSuggestions(true)
+      setSearchResults(
+        cachedResults.current.filter(
+          (elem) =>
+            elem.name.includes(text.toLowerCase()) ||
+            elem.description.includes(text.toLowerCase()),
+        ),
+      )
     } else if (text == '') {
       setShowSuggestions(false)
       setSearchResults([])
@@ -192,6 +234,9 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
   if (isActive && !showSuggestions && searchResults.length > 0) {
     setShowSuggestions(true)
   }
+
+  const distance = levenshteinDistance('bergen', 'Bergen stasjon')
+  console.log(distance)
 
   return (
     <div
