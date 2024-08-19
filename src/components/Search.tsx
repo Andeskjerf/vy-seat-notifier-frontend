@@ -47,21 +47,34 @@ async function makeApiRequest(search: string): Promise<SearchLocation[]> {
   })
 }
 
+function getIconForStop(id: string): string {
+  switch (id) {
+    case 'railway-station':
+      return 'train'
+    case 'bus-stop':
+    case 'bus-station':
+      return 'bus-simple'
+    case 'airport':
+      return 'plane-departure'
+    case 'tram-station':
+      return 'train-tram'
+    case 'ferry-stop':
+      return 'ferry'
+    case 'city-town-village':
+      return 'city'
+    default:
+      console.log('invalid category id: ' + id)
+      return ''
+  }
+}
+
 function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
 
   const categories = result.categories.map((entry) => {
-    let icon = ''
-    switch (entry.id) {
-      case 'railway-station':
-        icon = 'train'
-        break
-      case 'bus-stop':
-        icon = 'bus-simple'
-        break
-      case 'airport':
-        icon = 'plane-departure'
-        break
+    const icon = getIconForStop(entry.id)
+    if (icon == '') {
+      return
     }
     return (
       <FontAwesomeIcon
@@ -72,7 +85,10 @@ function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
     )
   })
 
-  if (categories.length == 0) {
+  if (
+    categories.length == 0 ||
+    (categories.length == 1 && categories[0] == undefined)
+  ) {
     categories.push(
       <FontAwesomeIcon
         icon='location-pin'

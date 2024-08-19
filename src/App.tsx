@@ -3,11 +3,27 @@ import './App.css'
 import Search from './components/Search'
 import { RoundState } from './components/Search'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrain, faBusSimple, faPlaneDeparture, faLocationPin } from '@fortawesome/free-solid-svg-icons'
+import {
+  faTrain,
+  faBusSimple,
+  faPlaneDeparture,
+  faLocationPin,
+  faTrainTram,
+  faFerry,
+  faCity,
+} from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   const [activeSearch, setActiveSearch] = useState<number>(-1)
-  library.add(faTrain, faBusSimple, faPlaneDeparture, faLocationPin)
+  library.add(
+    faTrain,
+    faBusSimple,
+    faPlaneDeparture,
+    faLocationPin,
+    faTrainTram,
+    faFerry,
+		faCity,
+  )
 
   return (
     <>
