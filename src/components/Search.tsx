@@ -90,7 +90,7 @@ async function makeApiRequest(search: string): Promise<SearchLocation[]> {
 function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
 
-  const categories = result.categories.map((entry, index) => {
+  const categories = result.categories.map((entry) => {
 		let icon = ''
 		switch (entry.id) {
 			case 'railway-station':
