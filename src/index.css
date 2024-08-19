@@ -258,3 +258,16 @@ button:focus-visible {
     transform: scale(1);
   }
 }
+
+.button {
+	width: 100px;
+	height: 50px;
+	background-color: grey;
+
+	transition-duration: 50ms;
+	transition-property: background-color;
+}
+
+.button-active {
+	background-color: rgb(var(--accent-color)) !important;
+}

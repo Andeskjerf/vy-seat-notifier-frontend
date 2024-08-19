@@ -14,12 +14,22 @@ import {
   faTrainSubway,
 } from '@fortawesome/free-solid-svg-icons'
 import { SearchLocation } from './models/SearchLocation'
+import Button from './components/Button'
 
 class SearchState {
   left: SearchLocation | null
   right: SearchLocation | null
 
-  constructor() {
+  constructor(left: SearchLocation | null, right: SearchLocation | null) {
+    this.left = left
+    this.right = right
+  }
+
+  bothValid(): boolean {
+    return this.left != null && this.right != null
+  }
+
+  clear() {
     this.left = null
     this.right = null
   }
@@ -27,9 +37,34 @@ class SearchState {
 
 function App() {
   const [activeSearch, setActiveSearch] = useState<number>(-1)
-  const [searchState, setSearchState] = useState<SearchState>(new SearchState())
+  // const [searchState, setSearchState] = useState<Object>({ x: 0, y: 0})
+  const [searchState, setSearchState] = useState<SearchState>(
+    new SearchState(null, null),
+  )
+  const [activeButton, setActiveButton] = useState<boolean>(false)
 
   setFaIcons()
+
+  function buttonClick() {
+    if (activeButton) {
+      setActiveButton(false)
+    } else {
+      setActiveButton(true)
+    }
+  }
+
+  function updateSearchState(
+    location: SearchLocation | null,
+    round: RoundState,
+  ) {
+    const state: SearchState = searchState
+    if (round == RoundState.Left) {
+      state.left = location
+    } else {
+      state.right = location
+    }
+    setSearchState(new SearchState(state.left, state.right))
+  }
 
   return (
     <>
@@ -38,18 +73,23 @@ function App() {
           <Search
             id={0}
             activeCallback={setActiveSearch}
-            searchCallback={setSearchState}
+            searchCallback={updateSearchState}
             isActive={activeSearch == 0}
             round={RoundState.Left}
           />
           <Search
             id={1}
             activeCallback={setActiveSearch}
-            searchCallback={setSearchState}
+            searchCallback={updateSearchState}
             isActive={activeSearch == 1}
             round={RoundState.Right}
           />
         </div>
+        <Button
+          label='Søk'
+          active={searchState.left != null && searchState.right != null}
+          callback={() => buttonClick()}
+        />
       </div>
     </>
   )

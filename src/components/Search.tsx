@@ -69,7 +69,7 @@ function levenshteinDistance(a: string, b: string) {
   return arr[a.length][b.length]
 }
 
-function Search({ round, isActive, activeCallback, searchState, id }: SearchProps) {
+function Search({ round, isActive, activeCallback, searchCallback, id }: SearchProps) {
   const autosuggest = useRef<number | undefined>()
   const searched = useRef<string[]>([])
   const cachedResults = useRef<SearchLocation[]>([])
@@ -79,6 +79,7 @@ function Search({ round, isActive, activeCallback, searchState, id }: SearchProp
 
   function handleInput(text: string) {
     clearTimeout(autosuggest.current)
+		searchCallback(null, round)
     if (text != '' && !searched.current.includes(text)) {
       setShowSuggestions(true)
       setSearchResults([])
@@ -111,6 +112,7 @@ function Search({ round, isActive, activeCallback, searchState, id }: SearchProp
     ) as HTMLInputElement | null
     if (input != null) {
       input.value = result.name
+			searchCallback(result, round)
       setSelectedEntry(result)
       activeCallback(-1)
     }
