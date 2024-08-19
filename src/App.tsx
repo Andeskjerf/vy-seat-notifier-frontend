@@ -11,6 +11,7 @@ import {
   faTrainTram,
   faFerry,
   faCity,
+  faTrainSubway,
 } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     faTrainTram,
     faFerry,
 		faCity,
+		faTrainSubway,
   )
 
   return (

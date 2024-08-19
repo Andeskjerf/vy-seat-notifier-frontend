@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './Search.css'
 import { API_URL } from '../Consts'
 import { SearchLocation } from '../models/SearchLocation'
@@ -51,6 +51,8 @@ function getIconForStop(id: string): string {
   switch (id) {
     case 'railway-station':
       return 'train'
+    case 'metro-station':
+      return 'train-subway'
     case 'bus-stop':
     case 'bus-station':
       return 'bus-simple'
@@ -139,23 +141,24 @@ function SuggestionsBox({ isVisible, results, callback }: SuggestionsBoxProps) {
 }
 
 function Search({ round, isActive, activeCallback, id }: SearchProps) {
-  const [autosuggest, setAutosuggest] = useState<number | undefined>()
-  const [searched, setSearched] = useState<string[]>([])
+  const autosuggest = useRef<number | undefined>()
+  const searched = useRef<string[]>([])
+  const cachedResults = useRef<SearchLocation[]>([])
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false)
   const [searchResults, setSearchResults] = useState<SearchLocation[]>([])
   const [selectedEntry, setSelectedEntry] = useState<SearchLocation>()
 
   function handleInput(text: string) {
-    clearTimeout(autosuggest)
-    if (text != '' && !searched.includes(text)) {
+    clearTimeout(autosuggest.current)
+    if (text != '' && !searched.current.includes(text)) {
       setShowSuggestions(true)
-      setSearched([...searched, text])
       setSearchResults([])
-      setAutosuggest(
-        setTimeout(async () => {
-          setSearchResults(await makeApiRequest(text))
-        }, 1000),
-      )
+      autosuggest.current = setTimeout(async () => {
+        const results = await makeApiRequest(text)
+        addToCache(results)
+        searched.current = [...searched.current, text]
+        setSearchResults(results)
+      }, 1000)
     } else if (text == '') {
       setShowSuggestions(false)
       setSearchResults([])
@@ -173,9 +176,17 @@ function Search({ round, isActive, activeCallback, id }: SearchProps) {
     }
   }
 
+  function addToCache(location: SearchLocation[]) {
+    for (const elem of location) {
+      if (!cachedResults.current.find((e) => e.id == elem.id)) {
+        cachedResults.current.push(elem)
+      }
+    }
+  }
+
   if (!isActive && showSuggestions) {
     setShowSuggestions(false)
-    clearTimeout(autosuggest)
+    clearTimeout(autosuggest.current)
   }
 
   if (isActive && !showSuggestions && searchResults.length > 0) {
