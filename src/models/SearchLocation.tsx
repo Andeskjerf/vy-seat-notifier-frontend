@@ -27,7 +27,7 @@ export class SearchLocation {
         (category: any) => new Category(category.id, category.name),
       ),
       new Position(json.position.latitude, json.position.longitude),
-      json.shortDescription,
+      json.description,
     )
   }
 }

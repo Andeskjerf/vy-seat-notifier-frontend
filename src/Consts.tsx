@@ -1,2 +1,2 @@
 
-export const API_URL = "https://www.vy.no"
+export const API_URL = "http://localhost:3000"

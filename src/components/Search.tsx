@@ -30,78 +30,57 @@ interface SuggestionEntryProps {
 }
 
 function makeSearchUrl(search: string): string {
-  return `${API_URL}/services/location/places/autosuggest?query=${search}&searchOrigin=default`
-}
-
-function dummyApiResponse(name: string, description: string): SearchLocation {
-  const response = {
-    id: '',
-    name: `${name}`,
-    categories: [
-      {
-        id: 'railway-station',
-        name: 'Togstasjon',
-      },
-      {
-        id: 'bus-stop',
-        name: '',
-      },
-    ],
-    position: {
-      latitude: 0,
-      longitude: 0,
-    },
-    shortDescription: `${description}`,
-    externalReferences: [],
-    debugInfo: {
-      origin: '',
-    },
-  }
-
-  return SearchLocation.fromJson(response)
+  return `${API_URL}/autosuggest?query=${search}`
 }
 
 async function makeApiRequest(search: string): Promise<SearchLocation[]> {
-  // we're not allowed to make a GET request to Vy from our website
-  // we need our own server that does it on our behalf
-  // in the meantime, dummy function
-  return new Promise((resolve) => {
-    setTimeout(
-      () =>
-        resolve([
-          dummyApiResponse('Oslo S', 'Knutepunkt i Oslo'),
-          dummyApiResponse(
-            'Scandic Oslo Airport',
-            'Stoppested i Nannestad, Akershus',
-          ),
-        ]),
-      500,
-    )
+  const response = await fetch(makeSearchUrl(search), {
+    headers: {
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
+      'Content-Type': 'application/json',
+    },
   })
 
-  // return await fetch(makeSearchUrl(search), {
-  // mode: "no-cors",
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
+  const json = await response.json()
+  return json.map((entry) => {
+    return SearchLocation.fromJson(entry)
+  })
 }
 
 function SuggestionEntry({ result, isLast, callback }: SuggestionEntryProps) {
   const class_ = isLast ? 'round-bottom' : ''
 
   const categories = result.categories.map((entry) => {
-		let icon = ''
-		switch (entry.id) {
-			case 'railway-station':
-				icon = 'train'
-				break
-			case 'bus-stop':
-				icon = 'bus-simple'
-				break
-		}
-    return <FontAwesomeIcon icon={icon} key={entry.id} className='self-align-center pl-6' />
+    let icon = ''
+    switch (entry.id) {
+      case 'railway-station':
+        icon = 'train'
+        break
+      case 'bus-stop':
+        icon = 'bus-simple'
+        break
+      case 'airport':
+        icon = 'plane-departure'
+        break
+    }
+    return (
+      <FontAwesomeIcon
+        icon={icon}
+        key={entry.id}
+        className='self-align-center pl-6'
+      />
+    )
   })
+
+  if (categories.length == 0) {
+    categories.push(
+      <FontAwesomeIcon
+        icon='location-pin'
+        key='eh'
+        className='self-align-center pl-6'
+      />,
+    )
+  }
 
   return (
     <>
