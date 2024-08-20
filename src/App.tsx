@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { SearchLocation } from './models/SearchLocation'
 import Button from './components/Button'
+import SearchResults from './components/SearchResults'
 
 class SearchState {
   left: SearchLocation | null
@@ -40,16 +41,14 @@ function App() {
   const [searchState, setSearchState] = useState<SearchState>(
     new SearchState(null, null),
   )
-  const [activeButton, setActiveButton] = useState<boolean>(false)
+	const [isSearching, setIsSearching] = useState<boolean>(false)
 
   setFaIcons()
 
   function buttonClick() {
-    if (activeButton) {
-      setActiveButton(false)
-    } else {
-      setActiveButton(true)
-    }
+		if (!isSearching) {
+			setIsSearching(true)
+		}
   }
 
   function updateSearchState(
@@ -91,6 +90,7 @@ function App() {
             callback={() => buttonClick()}
           />
         </div>
+        <SearchResults searching={isSearching} setSearching={setIsSearching} from={searchState.left} to={searchState.right} />
       </div>
     </>
   )

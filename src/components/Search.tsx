@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react'
 import './Search.css'
-import { API_URL } from '../Consts'
 import { SearchLocation } from '../models/SearchLocation'
 import SuggestionsBox from './SuggestionsBox'
+import { getAutosuggestApi, makeAutosuggestUrl } from '../Api'
 
 export enum RoundState {
   Left = 'round-left',
@@ -18,23 +18,6 @@ interface SearchProps {
   searchCallback: Function
 }
 
-function makeSearchUrl(search: string): string {
-  return `${API_URL}/autosuggest?query=${search}`
-}
-
-async function makeApiRequest(search: string): Promise<SearchLocation[]> {
-  const response = await fetch(makeSearchUrl(search), {
-    headers: {
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
-      'Content-Type': 'application/json',
-    },
-  })
-
-  const json = await response.json()
-  return json.map((entry) => {
-    return SearchLocation.fromJson(entry)
-  })
-}
 
 function levenshteinDistance(a: string, b: string) {
   const arr: number[][] = Array.from({ length: a.length + 1 }, () =>
@@ -97,7 +80,7 @@ function Search({
 
     if (!searched.current.includes(text)) {
       autosuggest.current = setTimeout(async () => {
-        const results = await makeApiRequest(text)
+        const results = await getAutosuggestApi(text)
         addToCache(results)
         searched.current = [...searched.current, text]
         setSearchResults(results)
