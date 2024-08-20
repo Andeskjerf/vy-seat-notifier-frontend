@@ -1,18 +1,4 @@
-// pub struct Journey {
-//     departure: String,
-//     arrival: String,
-//     #[serde(alias = "departureScheduled")]
-//     departure_scheduled: String,
-//     #[serde(alias = "arrivalScheduled")]
-//     arrival_scheduled: String,
-//     #[serde(alias = "totalDuration")]
-//     total_duration: Duration,
-//     pub legs: Vec<Leg>,
-//     pub from: Destination,
-//     pub to: Destination,
-//     id: String,
-// }
-
+import Leg from './Leg'
 import { SearchLocation } from './SearchLocation'
 
 export class Journey {
@@ -24,6 +10,7 @@ export class Journey {
   totalDuration: Duration
   from: SearchLocation
   to: SearchLocation
+  legs: Leg[]
 
   constructor(
     id: string,
@@ -34,6 +21,7 @@ export class Journey {
     totalDuration: Duration,
     from: SearchLocation,
     to: SearchLocation,
+    legs: Leg[],
   ) {
     this.id = id
     this.departure = departure
@@ -43,6 +31,7 @@ export class Journey {
     this.totalDuration = totalDuration
     this.from = from
     this.to = to
+    this.legs = legs
   }
 
   static fromJson(json: any): Journey {
@@ -59,6 +48,9 @@ export class Journey {
       ),
       json.from,
       json.to,
+      json.legs.map((entry) => {
+        return Leg.fromJson(entry)
+      }),
     )
   }
 }
@@ -72,5 +64,9 @@ class Duration {
     this.days = days
     this.hours = hours
     this.minutes = minutes
+  }
+
+  prettyPrint(): string {
+    return `( ${this.hours} t ${this.minutes} m )`
   }
 }
