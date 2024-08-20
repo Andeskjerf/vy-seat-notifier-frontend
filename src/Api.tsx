@@ -40,7 +40,6 @@ export async function getSearchApi(
   })
 
   const json = await response.json()
-  console.log(json)
   return json.map((entry) => {
     return Journey.fromJson(entry)
   })
