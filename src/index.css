@@ -21,6 +21,7 @@
   --border-width: 1px;
 
   --br-search: 12px;
+	--br-button: 20px;
 }
 
 a {
@@ -92,6 +93,32 @@ button:focus-visible {
 
 .text-grey {
 	color: grey;
+}
+
+.p-3 {
+  padding: 3px;
+}
+
+.p-6 {
+  padding: 6px;
+}
+
+.plr-12 {
+	--size: 12px;
+	padding-left: var(--size);
+	padding-right: var(--size);
+}
+
+.plr-16 {
+	--size: 16px;
+	padding-left: var(--size);
+	padding-right: var(--size);
+}
+
+.plr-24 {
+	--size: 24px;
+	padding-left: var(--size);
+	padding-right: var(--size);
 }
 
 .p-10 {
@@ -234,6 +261,10 @@ button:focus-visible {
 
 .flex-align-start {
 	align-self: flex-start;
+}
+
+.flex-align-end {
+	align-self: flex-end;
 }
 
 .content-align-center {

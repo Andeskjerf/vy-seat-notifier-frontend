@@ -6,15 +6,22 @@
   transition-property: background-color;
 }
 
+.br-button {
+	border-radius: var(--br-button);
+}
+
 .button-active {
-  background-color: rgb(var(--accent-color)) !important;
+  background-color: var(--accent-dark-color) !important;
+  /* background-color: rgb(var(--accent-color)) !important; */
 
   transition-duration: 100ms;
   transition-property: filter;
 }
 
 .button-active:hover {
-  filter: brightness(125%);
+  filter: brightness(150%);
+	/* better for lighter accent */
+  /* filter: brightness(125%); */
 }
 
 .button-active:active {

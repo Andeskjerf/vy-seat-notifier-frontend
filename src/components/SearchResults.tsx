@@ -31,7 +31,7 @@ export default function SearchResult({
     }
   }, [from, to, searching])
 
-  const entries = results.map((entry, index) => {
+  const entries = results.map((entry, _) => {
     return (
 			<JourneyCard key={entry.id} journey={entry} />
 		)
@@ -44,7 +44,6 @@ export default function SearchResult({
       ) : (
         <>{entries}</>
       )}
-      <div></div>
     </>
   )
 }

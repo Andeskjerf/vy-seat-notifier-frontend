@@ -1,4 +1,5 @@
 import { Journey } from '../models/Journey'
+import Button from './Button'
 import './JourneyCard.css'
 import LineBadge from './LineBadge'
 
@@ -21,7 +22,7 @@ export default function JourneyCard({ journey }: JourneyCardProps) {
   const toTime = timeFromDateTime(journey.arrival).substring(0, 5)
   return (
     <>
-      <div className='journey-card elevation mt-24 p-18 white-bg round-both'>
+      <div className='journey-card flex elevation mt-24 p-18 white-bg round-both flex-space-between'>
         <div className='flex flex-column'>
           <div className='flex text-black text-large'>
             <div className='text-medium'>
@@ -37,6 +38,9 @@ export default function JourneyCard({ journey }: JourneyCardProps) {
 						serviceDestination={journey.legs[0].line.serviceDestination}
           />
         </div>
+				<div className='flex flex-align-end '>
+					<Button label='Legg til' callback={() => console.log("hello")} active={true} />
+				</div>
       </div>
     </>
   )
