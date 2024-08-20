@@ -15,7 +15,7 @@ interface SearchProps {
   round: RoundState
   isActive: boolean
   activeCallback: Function
-	searchCallback: Function
+  searchCallback: Function
 }
 
 function makeSearchUrl(search: string): string {
@@ -69,7 +69,13 @@ function levenshteinDistance(a: string, b: string) {
   return arr[a.length][b.length]
 }
 
-function Search({ round, isActive, activeCallback, searchCallback, id }: SearchProps) {
+function Search({
+  round,
+  isActive,
+  activeCallback,
+  searchCallback,
+  id,
+}: SearchProps) {
   const autosuggest = useRef<number | undefined>()
   const searched = useRef<string[]>([])
   const cachedResults = useRef<SearchLocation[]>([])
@@ -79,18 +85,25 @@ function Search({ round, isActive, activeCallback, searchCallback, id }: SearchP
 
   function handleInput(text: string) {
     clearTimeout(autosuggest.current)
-		searchCallback(null, round)
-    if (text != '' && !searched.current.includes(text)) {
-      setShowSuggestions(true)
+    searchCallback(null, round)
+    if (text == '') {
+      setShowSuggestions(false)
       setSearchResults([])
+      return
+    }
+
+    setShowSuggestions(true)
+    setSearchResults([])
+		console.log(cachedResults)
+
+    if (!searched.current.includes(text)) {
       autosuggest.current = setTimeout(async () => {
         const results = await makeApiRequest(text)
         addToCache(results)
         searched.current = [...searched.current, text]
         setSearchResults(results)
       }, 1000)
-    } else if (text != '' && searched.current.includes(text)) {
-      setShowSuggestions(true)
+    } else if (searched.current.includes(text)) {
       const maxDistance = 5
       const lower = text.toLowerCase()
       setSearchResults(
@@ -100,9 +113,6 @@ function Search({ round, isActive, activeCallback, searchCallback, id }: SearchP
             levenshteinDistance(elem.description, lower) < maxDistance,
         ),
       )
-    } else if (text == '') {
-      setShowSuggestions(false)
-      setSearchResults([])
     }
   }
 
@@ -112,7 +122,7 @@ function Search({ round, isActive, activeCallback, searchCallback, id }: SearchP
     ) as HTMLInputElement | null
     if (input != null) {
       input.value = result.name
-			searchCallback(result, round)
+      searchCallback(result, round)
       setSelectedEntry(result)
       activeCallback(-1)
     }

@@ -37,7 +37,6 @@ class SearchState {
 
 function App() {
   const [activeSearch, setActiveSearch] = useState<number>(-1)
-  // const [searchState, setSearchState] = useState<Object>({ x: 0, y: 0})
   const [searchState, setSearchState] = useState<SearchState>(
     new SearchState(null, null),
   )
@@ -87,7 +86,7 @@ function App() {
         </div>
         <Button
           label='Søk'
-          active={searchState.left != null && searchState.right != null}
+          active={searchState.bothValid()}
           callback={() => buttonClick()}
         />
       </div>
