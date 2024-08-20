@@ -18,7 +18,6 @@ interface SearchProps {
   searchCallback: Function
 }
 
-
 function levenshteinDistance(a: string, b: string) {
   const arr: number[][] = Array.from({ length: a.length + 1 }, () =>
     Array(b.length + 1).fill(0),
