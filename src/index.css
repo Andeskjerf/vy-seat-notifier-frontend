@@ -110,8 +110,28 @@ button:focus-visible {
   margin: 6px;
 }
 
+.mt-8 {
+  margin-top: 8px;
+}
+
+.mt-12 {
+  margin-top: 12px;
+}
+
 .text-label {
   font-size: 12px;
+}
+
+.text-button {
+  font-size: 14px;
+}
+
+.text-bold {
+	font-weight: bold;
+}
+
+.text-medium {
+	font-weight: 500;
 }
 
 .round-left {
@@ -259,15 +279,3 @@ button:focus-visible {
   }
 }
 
-.button {
-	width: 100px;
-	height: 50px;
-	background-color: grey;
-
-	transition-duration: 50ms;
-	transition-property: background-color;
-}
-
-.button-active {
-	background-color: rgb(var(--accent-color)) !important;
-}

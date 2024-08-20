@@ -84,11 +84,13 @@ function App() {
             round={RoundState.Right}
           />
         </div>
-        <Button
-          label='Søk'
-          active={searchState.bothValid()}
-          callback={() => buttonClick()}
-        />
+        <div className='mt-12'>
+          <Button
+            label='Søk'
+            active={searchState.bothValid()}
+            callback={() => buttonClick()}
+          />
+        </div>
       </div>
     </>
   )

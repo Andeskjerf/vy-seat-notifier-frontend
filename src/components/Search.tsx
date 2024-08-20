@@ -94,7 +94,6 @@ function Search({
 
     setShowSuggestions(true)
     setSearchResults([])
-		console.log(cachedResults)
 
     if (!searched.current.includes(text)) {
       autosuggest.current = setTimeout(async () => {

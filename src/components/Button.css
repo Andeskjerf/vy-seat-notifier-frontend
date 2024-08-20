@@ -1,0 +1,22 @@
+.button {
+  height: 40px;
+  background-color: grey;
+
+  transition-duration: 50ms;
+  transition-property: background-color;
+}
+
+.button-active {
+  background-color: rgb(var(--accent-color)) !important;
+
+  transition-duration: 100ms;
+  transition-property: filter;
+}
+
+.button-active:hover {
+  filter: brightness(125%);
+}
+
+.button-active:active {
+  filter: brightness(75%);
+}
