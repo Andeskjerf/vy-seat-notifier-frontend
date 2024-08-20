@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { SearchLocation } from '../models/SearchLocation'
 import { Journey } from '../models/Journey'
 import { getSearchApi } from '../Api'
+import JourneyCard from './JourneyCard'
 
 interface SearchResultProps {
   from: SearchLocation | null
@@ -31,7 +32,9 @@ export default function SearchResult({
   }, [from, to, searching])
 
   const entries = results.map((entry, index) => {
-    return entry.id
+    return (
+			<JourneyCard key={entry.id} journey={entry} />
+		)
   })
 
   return (

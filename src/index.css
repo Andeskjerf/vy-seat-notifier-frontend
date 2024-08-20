@@ -118,12 +118,20 @@ button:focus-visible {
   margin-top: 12px;
 }
 
+.mt-24 {
+  margin-top: 24px;
+}
+
 .text-label {
   font-size: 12px;
 }
 
 .text-button {
   font-size: 14px;
+}
+
+.text-large {
+	font-size: 18px;
 }
 
 .text-bold {
