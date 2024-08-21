@@ -1,24 +1,20 @@
 import { Journey } from '../models/Journey'
+import { timeFromDateTime } from '../utils/date'
 import Button from './Button'
 import './JourneyCard.css'
 import LineBadge from './LineBadge'
 
 interface JourneyCardProps {
   journey: Journey
-	setJourneys: Function
+  journeys: Journey[]
+  setJourneys: Function
 }
 
-function timeFromDateTime(input: string): string {
-  const match = input.match(/T(\d{2}:\d{2}:\d{2})/)
-  if (match) {
-    return match[1]
-  } else {
-    console.log('no time found in datetime')
-    return '-1'
-  }
-}
-
-export default function JourneyCard({ journey, setJourneys }: JourneyCardProps) {
+export default function JourneyCard({
+  journey,
+  journeys,
+  setJourneys,
+}: JourneyCardProps) {
   const fromTime = timeFromDateTime(journey.departure).substring(0, 5)
   const toTime = timeFromDateTime(journey.arrival).substring(0, 5)
   return (
@@ -36,12 +32,20 @@ export default function JourneyCard({ journey, setJourneys }: JourneyCardProps) 
           <LineBadge
             mode={journey.legs[0].mode}
             lineCode={journey.legs[0].line.name}
-						serviceDestination={journey.legs[0].line.serviceDestination}
+            serviceDestination={journey.legs[0].line.serviceDestination}
           />
         </div>
-				<div className='flex flex-align-end '>
-					<Button label='Legg til' callback={() => setJourneys()} active={true} />
-				</div>
+        <div className='flex flex-align-end '>
+          <Button
+            label={
+              journeys.find((entry) => entry.id == journey.id)
+                ? 'Fjern'
+                : 'Legg til'
+            }
+            callback={() => setJourneys()}
+            active={true}
+          />
+        </div>
       </div>
     </>
   )

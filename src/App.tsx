@@ -17,6 +17,7 @@ import { SearchLocation } from './models/SearchLocation'
 import Button from './components/Button'
 import SearchResults from './components/SearchResults'
 import { Journey } from './models/Journey'
+import SelectedJourney from './components/SelectedJourney'
 
 class SearchState {
   left: SearchLocation | null
@@ -76,6 +77,16 @@ function App() {
     setJourneys([...journeys])
   }
 
+  function removeFromJourneys(journey: Journey) {
+    const position = journeys.findIndex((entry) => entry.id == journey.id)
+    if (position != -1) {
+      journeys.splice(position, 1)
+      setJourneys([...journeys])
+    } else {
+      console.log('warn: unable to find journey in journeys state')
+    }
+  }
+
   return (
     <>
       <div>
@@ -104,12 +115,18 @@ function App() {
         </div>
         <div className='flex'>
           {journeys.map((entry) => {
-            return <div className='text-black mr-10'>{entry.departure}</div>
+            return (
+              <SelectedJourney
+                removeJourney={removeFromJourneys}
+                journey={entry}
+              />
+            )
           })}
         </div>
         <SearchResults
           setJourneys={addToJourneys}
           searching={isSearching}
+          selectedJourneys={journeys}
           setSearching={setIsSearching}
           from={searchState.left}
           to={searchState.right}

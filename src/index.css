@@ -165,6 +165,10 @@ button:focus-visible {
 	margin-right: 10px;
 }
 
+.mr-12 {
+	margin-right: 12px;
+}
+
 .ml-12 {
 	margin-left: 12px;
 }
@@ -346,3 +350,20 @@ button:focus-visible {
   }
 }
 
+.elevation {
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+
+.relative {
+	position: relative;
+}
+
+.absolute {
+	position: absolute;
+}
+
+.show {
+	display: unset !important;
+}

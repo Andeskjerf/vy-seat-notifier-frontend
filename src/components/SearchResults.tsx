@@ -10,12 +10,14 @@ interface SearchResultProps {
   searching: boolean
   setSearching: Function
   setJourneys: Function
+	selectedJourneys: Journey[]
 }
 
 export default function SearchResult({
   from,
   to,
   searching,
+	selectedJourneys,
   setSearching,
   setJourneys,
 }: SearchResultProps) {
@@ -38,6 +40,7 @@ export default function SearchResult({
       <JourneyCard
         setJourneys={() => setJourneys(entry)}
         key={entry.id}
+				journeys={selectedJourneys}
         journey={entry}
       />
     )

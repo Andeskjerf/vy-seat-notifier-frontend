@@ -1,0 +1,17 @@
+.x-remove {
+	--offset: -10px;
+	--size: 30px;
+	right: var(--offset);
+	top: var(--offset);
+	width: var(--size);
+	height: var(--size);
+	/* background-color: black !important; */
+	border-radius: 1000px !important;
+	display: none;
+
+	transition: display 100ms ease-in-out;
+}
+
+.x-remove:hover {
+	background-color: red;
+}
