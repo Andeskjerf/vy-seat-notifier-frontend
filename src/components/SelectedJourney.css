@@ -7,11 +7,14 @@
 	height: var(--size);
 	/* background-color: black !important; */
 	border-radius: 1000px !important;
-	display: none;
+	opacity: 0;
 
-	transition: display 100ms ease-in-out;
+	transition-property: opacity color;
+	transition-duration: 50ms;
+	transition-timing-function: ease-in-out;
 }
 
 .x-remove:hover {
-	background-color: red;
+	background-color: var(--accent-dark-color);
+	color: white;
 }
