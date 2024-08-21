@@ -9,8 +9,8 @@ interface ButtonProps {
 export default function Button({ label, callback, active }: ButtonProps) {
   return (
     <div
-      onClick={() => callback()}
-      className={`${active ? 'button-active' : ''} text-medium button br-button content-align-center pointer-cursor no-select plr-24`}
+      onClick={() => (active ? callback() : '')}
+      className={`${active ? 'button-active pointer-cursor' : ''} text-medium button br-button content-align-center no-select plr-24`}
     >
       {label}
     </div>
