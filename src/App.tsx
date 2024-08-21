@@ -42,15 +42,15 @@ function App() {
   const [searchState, setSearchState] = useState<SearchState>(
     new SearchState(null, null),
   )
-	const [isSearching, setIsSearching] = useState<boolean>(false)
-	const [journeys, setJourneys] = useState<Journey[]>([])
+  const [isSearching, setIsSearching] = useState<boolean>(false)
+  const [journeys, setJourneys] = useState<Journey[]>([])
 
   setFaIcons()
 
   function buttonClick() {
-		if (!isSearching) {
-			setIsSearching(true)
-		}
+    if (!isSearching) {
+      setIsSearching(true)
+    }
   }
 
   function updateSearchState(
@@ -66,15 +66,15 @@ function App() {
     setSearchState(new SearchState(state.left, state.right))
   }
 
-	function addToJourneys(journey: Journey) {
-		const position = journeys.findIndex((entry) => entry.id == journey.id)
-		if (position != -1) {
-			journeys.splice(position, 1)
-		} else {
-			journeys.push(journey)
-		}
-		console.log(journeys.length)
-	}
+  function addToJourneys(journey: Journey) {
+    const position = journeys.findIndex((entry) => entry.id == journey.id)
+    if (position != -1) {
+      journeys.splice(position, 1)
+    } else {
+      journeys.push(journey)
+    }
+    setJourneys([...journeys])
+  }
 
   return (
     <>
@@ -102,7 +102,18 @@ function App() {
             callback={() => buttonClick()}
           />
         </div>
-        <SearchResults setJourneys={addToJourneys} searching={isSearching} setSearching={setIsSearching} from={searchState.left} to={searchState.right} />
+        <div className='flex'>
+          {journeys.map((entry) => {
+            return <div className='text-black mr-10'>{entry.departure}</div>
+          })}
+        </div>
+        <SearchResults
+          setJourneys={addToJourneys}
+          searching={isSearching}
+          setSearching={setIsSearching}
+          from={searchState.left}
+          to={searchState.right}
+        />
       </div>
     </>
   )

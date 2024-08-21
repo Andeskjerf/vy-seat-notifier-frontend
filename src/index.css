@@ -157,6 +157,14 @@ button:focus-visible {
 	margin-left: 6px;
 }
 
+.mr-6 {
+	margin-right: 6px;
+}
+
+.mr-10 {
+	margin-right: 10px;
+}
+
 .ml-12 {
 	margin-left: 12px;
 }
