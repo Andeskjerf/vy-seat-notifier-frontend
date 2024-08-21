@@ -38,7 +38,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
+  /* min-height: 100vh; */
 }
 
 h1 {
@@ -267,6 +267,10 @@ button:focus-visible {
   flex-direction: column;
 }
 
+.flex-grow {
+	flex-grow: 1;
+}
+
 .text-align-start {
   text-align: start;
 }
@@ -365,5 +369,9 @@ button:focus-visible {
 }
 
 .show {
-	display: unset !important;
+	opacity: 1;
+}
+
+.overflow-scroll {
+	overflow: scroll;
 }
