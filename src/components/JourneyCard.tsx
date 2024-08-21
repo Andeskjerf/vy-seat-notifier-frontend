@@ -6,17 +6,18 @@ import LineBadge from './LineBadge'
 
 interface JourneyCardProps {
   journey: Journey
-  journeys: Journey[]
+  selectedJourneys: Journey[]
   setJourneys: Function
 }
 
 export default function JourneyCard({
   journey,
-  journeys,
+  selectedJourneys,
   setJourneys,
 }: JourneyCardProps) {
   const fromTime = timeFromDateTime(journey.departure).substring(0, 5)
   const toTime = timeFromDateTime(journey.arrival).substring(0, 5)
+  console.log(journey, selectedJourneys)
   return (
     <>
       <div className='journey-card flex elevation mt-24 p-18 white-bg round-both flex-space-between'>
@@ -38,7 +39,7 @@ export default function JourneyCard({
         <div className='flex flex-align-end '>
           <Button
             label={
-              journeys.find((entry) => entry.id == journey.id)
+              selectedJourneys.find((entry) => entry.id == journey.id)
                 ? 'Fjern'
                 : 'Legg til'
             }

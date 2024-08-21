@@ -44,13 +44,14 @@ function App() {
     new SearchState(null, null),
   )
   const [isSearching, setIsSearching] = useState<boolean>(false)
-  const [journeys, setJourneys] = useState<Journey[]>([])
+  const [selectedJourneys, setJourneys] = useState<Journey[]>([])
 
   setFaIcons()
 
   function buttonClick() {
     if (!isSearching) {
       setIsSearching(true)
+      setJourneys([])
     }
   }
 
@@ -68,20 +69,24 @@ function App() {
   }
 
   function addToJourneys(journey: Journey) {
-    const position = journeys.findIndex((entry) => entry.id == journey.id)
+    const position = selectedJourneys.findIndex(
+      (entry) => entry.id == journey.id,
+    )
     if (position != -1) {
-      journeys.splice(position, 1)
+      selectedJourneys.splice(position, 1)
     } else {
-      journeys.push(journey)
+      selectedJourneys.push(journey)
     }
-    setJourneys([...journeys])
+    setJourneys([...selectedJourneys])
   }
 
   function removeFromJourneys(journey: Journey) {
-    const position = journeys.findIndex((entry) => entry.id == journey.id)
+    const position = selectedJourneys.findIndex(
+      (entry) => entry.id == journey.id,
+    )
     if (position != -1) {
-      journeys.splice(position, 1)
-      setJourneys([...journeys])
+      selectedJourneys.splice(position, 1)
+      setJourneys([...selectedJourneys])
     } else {
       console.log('warn: unable to find journey in journeys state')
     }
@@ -113,20 +118,35 @@ function App() {
             callback={() => buttonClick()}
           />
         </div>
-        <div className='flex'>
-          {journeys.map((entry) => {
-            return (
-              <SelectedJourney
-                removeJourney={removeFromJourneys}
-                journey={entry}
-              />
-            )
-          })}
+        <div className='selected-journeys-container flex flex-space-between'>
+          <div className='flex'>
+            {selectedJourneys.length > 0 ? (
+              selectedJourneys.map((entry) => {
+                return (
+                  <SelectedJourney
+                    removeJourney={removeFromJourneys}
+                    journey={entry}
+                  />
+                )
+              })
+            ) : (
+              <div className='text-black self-align-center'>
+                Ingen reiser valgt
+              </div>
+            )}
+          </div>
+          <div className='flex-align-end'>
+            <Button
+              label='Finn seter'
+              callback={() => console.log('yoo')}
+              active={selectedJourneys.length > 0}
+            />
+          </div>
         </div>
         <SearchResults
           setJourneys={addToJourneys}
           searching={isSearching}
-          selectedJourneys={journeys}
+          selectedJourneys={selectedJourneys}
           setSearching={setIsSearching}
           from={searchState.left}
           to={searchState.right}

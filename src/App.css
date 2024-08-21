@@ -9,3 +9,7 @@
 	background-color: black;
 	width: 1px;
 }
+
+.selected-journeys-container {
+	height: 104px;
+}

@@ -40,7 +40,7 @@ export default function SearchResult({
       <JourneyCard
         setJourneys={() => setJourneys(entry)}
         key={entry.id}
-				journeys={selectedJourneys}
+				selectedJourneys={selectedJourneys}
         journey={entry}
       />
     )
