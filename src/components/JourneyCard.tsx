@@ -5,6 +5,7 @@ import LineBadge from './LineBadge'
 
 interface JourneyCardProps {
   journey: Journey
+	setJourneys: Function
 }
 
 function timeFromDateTime(input: string): string {
@@ -17,7 +18,7 @@ function timeFromDateTime(input: string): string {
   }
 }
 
-export default function JourneyCard({ journey }: JourneyCardProps) {
+export default function JourneyCard({ journey, setJourneys }: JourneyCardProps) {
   const fromTime = timeFromDateTime(journey.departure).substring(0, 5)
   const toTime = timeFromDateTime(journey.arrival).substring(0, 5)
   return (
@@ -39,7 +40,7 @@ export default function JourneyCard({ journey }: JourneyCardProps) {
           />
         </div>
 				<div className='flex flex-align-end '>
-					<Button label='Legg til' callback={() => console.log("hello")} active={true} />
+					<Button label='Legg til' callback={() => setJourneys()} active={true} />
 				</div>
       </div>
     </>

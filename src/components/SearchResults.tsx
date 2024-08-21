@@ -9,6 +9,7 @@ interface SearchResultProps {
   to: SearchLocation | null
   searching: boolean
   setSearching: Function
+  setJourneys: Function
 }
 
 export default function SearchResult({
@@ -16,6 +17,7 @@ export default function SearchResult({
   to,
   searching,
   setSearching,
+  setJourneys,
 }: SearchResultProps) {
   const [hasSearched, setHasSearched] = useState<boolean>()
   const [results, setResults] = useState<Journey[]>([])
@@ -33,8 +35,12 @@ export default function SearchResult({
 
   const entries = results.map((entry, _) => {
     return (
-			<JourneyCard key={entry.id} journey={entry} />
-		)
+      <JourneyCard
+        setJourneys={() => setJourneys(entry)}
+        key={entry.id}
+        journey={entry}
+      />
+    )
   })
 
   return (

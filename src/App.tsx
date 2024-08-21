@@ -16,6 +16,7 @@ import {
 import { SearchLocation } from './models/SearchLocation'
 import Button from './components/Button'
 import SearchResults from './components/SearchResults'
+import { Journey } from './models/Journey'
 
 class SearchState {
   left: SearchLocation | null
@@ -42,6 +43,7 @@ function App() {
     new SearchState(null, null),
   )
 	const [isSearching, setIsSearching] = useState<boolean>(false)
+	const [journeys, setJourneys] = useState<Journey[]>([])
 
   setFaIcons()
 
@@ -63,6 +65,16 @@ function App() {
     }
     setSearchState(new SearchState(state.left, state.right))
   }
+
+	function addToJourneys(journey: Journey) {
+		const position = journeys.findIndex((entry) => entry.id == journey.id)
+		if (position != -1) {
+			journeys.splice(position, 1)
+		} else {
+			journeys.push(journey)
+		}
+		console.log(journeys.length)
+	}
 
   return (
     <>
@@ -90,7 +102,7 @@ function App() {
             callback={() => buttonClick()}
           />
         </div>
-        <SearchResults searching={isSearching} setSearching={setIsSearching} from={searchState.left} to={searchState.right} />
+        <SearchResults setJourneys={addToJourneys} searching={isSearching} setSearching={setIsSearching} from={searchState.left} to={searchState.right} />
       </div>
     </>
   )
