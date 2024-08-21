@@ -88,10 +88,10 @@ function Search({
       const maxDistance = 5
       const lower = text.toLowerCase()
       setSearchResults(
-        cachedResults.current.filter(
-          (elem) =>
-            levenshteinDistance(elem.name, lower) < maxDistance ||
-            levenshteinDistance(elem.description, lower) < maxDistance,
+        cachedResults.current.sort(
+          (a, b) =>
+            levenshteinDistance(a.name, lower) -
+            levenshteinDistance(b.name, lower),
         ),
       )
     }
