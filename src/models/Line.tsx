@@ -35,7 +35,6 @@ export default class Line {
   }
 
   static fromJson(json: any) {
-		console.log(json)
     return new Line(
       json.name,
       json.long_name || null,

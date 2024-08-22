@@ -1,3 +1,4 @@
+import Duration from './Duration'
 import Leg from './Leg'
 import { SearchLocation } from './SearchLocation'
 
@@ -55,18 +56,3 @@ export class Journey {
   }
 }
 
-class Duration {
-  days: number
-  hours: number
-  minutes: number
-
-  constructor(days: number, hours: number, minutes: number) {
-    this.days = days
-    this.hours = hours
-    this.minutes = minutes
-  }
-
-  prettyPrint(): string {
-    return `( ${this.hours} t ${this.minutes} m )`
-  }
-}

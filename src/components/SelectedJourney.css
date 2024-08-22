@@ -5,10 +5,11 @@
 	top: var(--offset);
 	width: var(--size);
 	height: var(--size);
+	/* background-color: black !important; */
 	border-radius: 1000px !important;
 	opacity: 0;
 
-	transition-property: opacity color;
+	transition-property: opacity, color;
 	transition-duration: 50ms;
 	transition-timing-function: ease-in-out;
 }

@@ -18,6 +18,7 @@ import Button from './components/Button'
 import SearchResults from './components/SearchResults'
 import { Journey } from './models/Journey'
 import SelectedJourney from './components/SelectedJourney'
+import { Page } from './Router'
 
 class SearchState {
   left: SearchLocation | null
@@ -38,7 +39,11 @@ class SearchState {
   }
 }
 
-function App() {
+interface AppProps {
+	setPage: Function
+}
+
+function App({ setPage }: AppProps) {
   const [activeSearch, setActiveSearch] = useState<number>(-1)
   const [searchState, setSearchState] = useState<SearchState>(
     new SearchState(null, null),
@@ -93,7 +98,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className='flex flex-column'>
       <div>
         <div className='flex'>
           <Search
@@ -138,11 +143,13 @@ function App() {
           <div className='flex-align-end'>
             <Button
               label='Finn seter'
-              callback={() => console.log('yoo')}
+              callback={() => setPage(selectedJourneys)}
               active={selectedJourneys.length > 0}
             />
           </div>
         </div>
+      </div>
+      <div className='overflow-scroll flex-grow p-10'>
         <SearchResults
           setJourneys={addToJourneys}
           searching={isSearching}
@@ -152,7 +159,7 @@ function App() {
           to={searchState.right}
         />
       </div>
-    </>
+    </div>
   )
 }
 
