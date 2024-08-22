@@ -1,6 +1,7 @@
 import { API_URL } from './Consts'
 import { Journey } from './models/Journey'
 import { SearchLocation } from './models/SearchLocation'
+import Seats from './models/Seats'
 
 export async function getAutosuggestApi(
   search: string,
@@ -37,10 +38,12 @@ export async function getSearchApi(
   })
 }
 
-export async function getSeatsApi(
-	journeys: Journey[]
-): Promise<Object> {
-	console.log(journeys)
+export interface SeatsLayout {
+  [key: string]: any
+}
+
+export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
+  console.log(journeys)
   const response = await fetch(`${API_URL}/seats`, {
     method: 'POST',
     headers: {
@@ -51,10 +54,12 @@ export async function getSeatsApi(
   })
 
   const json = await response.json()
-	console.log(json)
-  // return json.map((entry) => {
-  //   return Journey.fromJson(entry)
-  // })
+  let result: SeatsLayout = {}
+  for (let key in json) {
+    result[key] = json[key].map((entry) => Seats.fromJson(entry))
+  }
+	console.log(result)
+  return result
 }
 
 // passord: eksamen
