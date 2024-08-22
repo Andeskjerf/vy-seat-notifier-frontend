@@ -1,7 +1,0 @@
-.gradient {
-  background: linear-gradient(
-    to left,
-    rgb(var(--accent-color)),
-    var(--accent-dark-color)
-  );
-}

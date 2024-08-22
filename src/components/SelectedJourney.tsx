@@ -28,7 +28,7 @@ export default function SelectedJourney({
       <div
         onMouseEnter={() => toggleRemoveButton(true)}
         onMouseLeave={() => toggleRemoveButton(false)}
-        className='white-bg round-both mr-12 mt-12 p-10 text-black flex flex-column elevation no-select relative'
+        className='text-black white-bg round-both mr-12 mt-12 p-10 flex flex-column elevation no-select relative'
       >
         <div className='text-medium'>{fromTime}</div>
         <div className='text-medium'>{toTime}</div>
@@ -36,7 +36,7 @@ export default function SelectedJourney({
         <div
           onClick={() => removeJourney(journey)}
           id={`selected-delete-${journey.id}`}
-          className='white-bg absolute x-remove elevation pointer-cursor text-medium'
+          className='white-bg text-black absolute x-remove elevation pointer-cursor text-medium'
         >
           x
         </div>

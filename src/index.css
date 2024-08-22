@@ -21,7 +21,7 @@
   --border-width: 1px;
 
   --br-search: 12px;
-	--br-button: 20px;
+  --br-button: 20px;
 }
 
 a {
@@ -92,7 +92,7 @@ button:focus-visible {
 }
 
 .text-grey {
-	color: grey;
+  color: grey;
 }
 
 .p-3 {
@@ -104,21 +104,21 @@ button:focus-visible {
 }
 
 .plr-12 {
-	--size: 12px;
-	padding-left: var(--size);
-	padding-right: var(--size);
+  --size: 12px;
+  padding-left: var(--size);
+  padding-right: var(--size);
 }
 
 .plr-16 {
-	--size: 16px;
-	padding-left: var(--size);
-	padding-right: var(--size);
+  --size: 16px;
+  padding-left: var(--size);
+  padding-right: var(--size);
 }
 
 .plr-24 {
-	--size: 24px;
-	padding-left: var(--size);
-	padding-right: var(--size);
+  --size: 24px;
+  padding-left: var(--size);
+  padding-right: var(--size);
 }
 
 .p-10 {
@@ -154,23 +154,23 @@ button:focus-visible {
 }
 
 .ml-6 {
-	margin-left: 6px;
+  margin-left: 6px;
 }
 
 .mr-6 {
-	margin-right: 6px;
+  margin-right: 6px;
 }
 
 .mr-10 {
-	margin-right: 10px;
+  margin-right: 10px;
 }
 
 .mr-12 {
-	margin-right: 12px;
+  margin-right: 12px;
 }
 
 .ml-12 {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 
 .text-label {
@@ -186,15 +186,15 @@ button:focus-visible {
 }
 
 .text-large {
-	font-size: 18px;
+  font-size: 18px;
 }
 
 .text-bold {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .text-medium {
-	font-weight: 500;
+  font-weight: 500;
 }
 
 .round-left {
@@ -268,7 +268,7 @@ button:focus-visible {
 }
 
 .flex-grow {
-	flex-grow: 1;
+  flex-grow: 1;
 }
 
 .text-align-start {
@@ -276,11 +276,11 @@ button:focus-visible {
 }
 
 .flex-align-start {
-	align-self: flex-start;
+  align-self: flex-start;
 }
 
 .flex-align-end {
-	align-self: flex-end;
+  align-self: flex-end;
 }
 
 .content-align-center {
@@ -361,17 +361,25 @@ button:focus-visible {
 }
 
 .relative {
-	position: relative;
+  position: relative;
 }
 
 .absolute {
-	position: absolute;
+  position: absolute;
 }
 
 .show {
-	opacity: 1 !important;
+  opacity: 1 !important;
 }
 
 .overflow-scroll {
-	overflow: scroll;
+  overflow: scroll;
+}
+
+.gradient {
+  background: linear-gradient(
+    to left,
+    rgb(var(--accent-color)),
+    var(--accent-dark-color)
+  );
 }
