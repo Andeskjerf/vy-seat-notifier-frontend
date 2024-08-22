@@ -30,11 +30,13 @@ export default function JourneyCard({
               {journey.totalDuration.prettyPrint()}
             </div>
           </div>
-          <LineBadge
-            mode={journey.legs[0].mode}
-            lineCode={journey.legs[0].line.name}
-            serviceDestination={journey.legs[0].line.serviceDestination}
-          />
+          <div className='mt-12'>
+            <LineBadge
+              mode={journey.legs[0].mode}
+              lineCode={journey.legs[0].line.name}
+              serviceDestination={journey.legs[0].line.serviceDestination}
+            />
+          </div>
         </div>
         <div className='flex flex-align-end '>
           <Button

@@ -38,8 +38,8 @@ export async function getSearchApi(
   })
 }
 
-export interface SeatsLayout {
-  [key: string]: any
+export type SeatsLayout = {
+  [key: string]: Seats
 }
 
 export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {

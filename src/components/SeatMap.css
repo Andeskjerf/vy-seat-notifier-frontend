@@ -1,0 +1,10 @@
+.seats-container {
+	width: 100%;
+	height: 150px;
+
+	border-radius: 32px;
+}
+
+.seats-parent-container {
+	width: 600px;
+}

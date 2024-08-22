@@ -383,3 +383,11 @@ button:focus-visible {
     var(--accent-dark-color)
   );
 }
+
+.pure-white-bg {
+	background-color: #FFFFFF;
+}
+
+.max-width {
+	width: 100%;
+}

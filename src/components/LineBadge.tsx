@@ -33,7 +33,7 @@ export default function LineBadge({
 	const modeIcon = iconForMode(mode)
   return (
     <>
-      <div className='flex flex-align-start mt-12 round-both gradient p-10'>
+      <div className='flex flex-align-start round-both gradient p-10'>
         <FontAwesomeIcon
           className='self-align-center'
           icon={modeIcon}
