@@ -53,12 +53,17 @@ export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
     body: JSON.stringify(journeys),
   })
 
+	if (response.status == 204) {
+		return {  }
+	}
+
   const json = await response.json()
   let result: SeatsLayout = {}
+
   for (let key in json) {
     result[key] = json[key].map((entry) => Seats.fromJson(entry))
   }
-	console.log(result)
+	
   return result
 }
 
