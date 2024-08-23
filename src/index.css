@@ -129,6 +129,22 @@ button:focus-visible {
   padding: 18px;
 }
 
+.pl-18 {
+  padding-left: 18px;
+}
+
+.pb-12 {
+  padding-bottom: 12px;
+}
+
+.pb-18 {
+  padding-bottom: 18px;
+}
+
+.pl-18 {
+  padding-left: 18px;
+}
+
 .pr-6 {
   padding-right: 6px;
 }
