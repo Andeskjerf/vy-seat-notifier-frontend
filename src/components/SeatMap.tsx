@@ -33,18 +33,44 @@ export default function SeatMap({ journey, seats }: SeatMapProps) {
             />
           </div>
         </div>
-        {seats.length > 0
-          ? seats.map((entry: Seats) => {
-              return (
-                <div className='seats-container round-both pure-white-bg elevation mt-24 flex'>
-                  <div className='text-black text-large text-medium flex flex-space-between max-width p-18'>
-                    <div>Vogn {entry.carNumber}</div>
-                    <div>{entry.numberOfSeats}</div>
+        {seats.length > 0 ? (
+          seats.map((entry: Seats) => {
+            let windowSeats = 0
+            let windowSeatsVacant = 0
+            let hallSeats = 0
+            let hallSeatsVacant = 0
+            entry.railcarElements.forEach((entry) => {
+              if (entry.seatNumber % 4 == 0 || entry.seatNumber % 4 == 1) {
+                windowSeats++
+                if (entry.available) windowSeatsVacant++
+              } else {
+                hallSeats++
+                if (entry.available) hallSeatsVacant++
+              }
+            })
+
+            return (
+              <div className='seats-container round-both pure-white-bg elevation mt-24 flex flex-column'>
+                <div className='text-black text-large text-medium flex flex-space-between p-18'>
+                  <div>Vogn {entry.carNumber}</div>
+                  <div>{entry.numberOfSeats}</div>
+                </div>
+                <div className='text-black pl-18 text-align-start pb-18'>
+                  <div>
+                    {windowSeatsVacant} av {windowSeats} ledig vindus seter
+                  </div>
+                  <div>
+                    {hallSeatsVacant} av {hallSeats} ledig gang seter
                   </div>
                 </div>
-              )
-            })
-          : <div className='text-black text-align-start'>Denne reisen er utsolgt eller kansellert</div>}
+              </div>
+            )
+          })
+        ) : (
+          <div className='text-black text-align-start'>
+            Denne reisen er utsolgt eller kansellert
+          </div>
+        )}
       </div>
     </>
   )

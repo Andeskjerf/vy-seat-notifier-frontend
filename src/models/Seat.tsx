@@ -28,11 +28,11 @@ export default class Seat {
 	static fromJson(json): Seat {
 		return new Seat(
 			json.id,
-			json.seat_number,
-			json.position_x,
-			json.position_y,
+			json.seatNumber,
+			json.positionX,
+			json.positionY,
 			json.direction,
-			json.seat_icon_id,
+			json.seatIconId,
 			json.available
 		)
 	}

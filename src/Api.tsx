@@ -43,7 +43,6 @@ export type SeatsLayout = {
 }
 
 export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
-  console.log(journeys)
   const response = await fetch(`${API_URL}/seats`, {
     method: 'POST',
     headers: {
@@ -58,6 +57,7 @@ export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
 	}
 
   const json = await response.json()
+	console.log(json)
   let result: SeatsLayout = {}
 
   for (let key in json) {
