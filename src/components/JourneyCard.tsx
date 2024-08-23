@@ -17,7 +17,6 @@ export default function JourneyCard({
 }: JourneyCardProps) {
   const fromTime = timeFromDateTime(journey.departure).substring(0, 5)
   const toTime = timeFromDateTime(journey.arrival).substring(0, 5)
-  console.log(journey, selectedJourneys)
   return (
     <>
       <div className='journey-card flex elevation mt-24 p-18 white-bg round-both flex-space-between'>
