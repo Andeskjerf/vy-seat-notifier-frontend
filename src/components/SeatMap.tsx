@@ -33,16 +33,18 @@ export default function SeatMap({ journey, seats }: SeatMapProps) {
             />
           </div>
         </div>
-        {seats.map((entry: Seats) => {
-          return (
-            <div className='seats-container round-both pure-white-bg elevation mt-24 flex'>
-              <div className='text-black text-large text-medium flex flex-space-between max-width p-18'>
-                <div>Vogn {entry.carNumber}</div>
-                <div>{entry.numberOfSeats}</div>
-              </div>
-            </div>
-          )
-        })}
+        {seats.length > 0
+          ? seats.map((entry: Seats) => {
+              return (
+                <div className='seats-container round-both pure-white-bg elevation mt-24 flex'>
+                  <div className='text-black text-large text-medium flex flex-space-between max-width p-18'>
+                    <div>Vogn {entry.carNumber}</div>
+                    <div>{entry.numberOfSeats}</div>
+                  </div>
+                </div>
+              )
+            })
+          : <div className='text-black text-align-start'>Denne reisen er utsolgt eller kansellert</div>}
       </div>
     </>
   )
