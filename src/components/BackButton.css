@@ -1,0 +1,20 @@
+.round-circle {
+	border-radius: 100px;
+}
+
+.back-button {
+	--size: 64px;
+	width: var(--size);
+	height: var(--size);
+
+	transition-property: color background-color;
+	transition-duration: 100ms;
+	transition-timing-function: ease-in-out;
+
+	font-size: 24px;
+}
+
+.back-button:hover {
+	background-color: rgb(var(--accent-color));
+	color: white !important;
+}

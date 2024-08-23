@@ -12,13 +12,13 @@ import {
   faFerry,
   faCity,
   faTrainSubway,
+  faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
 import { SearchLocation } from './models/SearchLocation'
 import Button from './components/Button'
 import SearchResults from './components/SearchResults'
 import { Journey } from './models/Journey'
 import SelectedJourney from './components/SelectedJourney'
-import { Page } from './Router'
 
 class SearchState {
   left: SearchLocation | null
@@ -173,6 +173,7 @@ function setFaIcons() {
     faFerry,
     faCity,
     faTrainSubway,
+		faArrowLeft,
   )
 }
 
