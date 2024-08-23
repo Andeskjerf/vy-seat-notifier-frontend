@@ -9,14 +9,13 @@ interface SeatResultsProps {
 }
 
 export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
-  const [journeySeats, setJourneySeats] = useState<SeatsLayout>()
+  const [journeySeats, setJourneySeats] = useState<SeatsLayout>({})
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && Object.keys(journeySeats).length == 0) {
       setLoading(true)
       getSeatsApi(selectedJourneys).then((result) => {
-        setLoading(false)
         Object.keys(result).sort((a, b) => {
           let j1 = Math.floor(
             new Date(
@@ -32,6 +31,7 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
           return j1 - j2
         })
         setJourneySeats(result)
+        setLoading(false)
       })
     }
   }, [selectedJourneys])
