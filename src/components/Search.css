@@ -1,8 +1,6 @@
-:root {
-}
-
 .search-container {
   position: relative;
+	width: 400px;
 }
 
 .suggestions-container {
