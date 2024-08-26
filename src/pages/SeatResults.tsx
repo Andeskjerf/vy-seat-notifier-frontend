@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react'
+import { isValidElement, useEffect, useState } from 'react'
 import { Journey } from '../models/Journey'
 import './SeatResults.css'
 import { getSeatsApi, SeatsLayout } from '../Api'
 import SeatMap from '../components/SeatMap'
+import InputField from '../components/InputField'
+import Button from '../components/Button'
 
 interface SeatResultsProps {
   selectedJourneys: Journey[]
@@ -11,6 +13,7 @@ interface SeatResultsProps {
 export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
   const [journeySeats, setJourneySeats] = useState<SeatsLayout>({})
   const [loading, setLoading] = useState<boolean>(false)
+  const [emailInput, setEmailInput] = useState<string>('')
 
   useEffect(() => {
     if (!loading && Object.keys(journeySeats).length == 0) {
@@ -48,5 +51,36 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
     })
   }
 
-  return <>{loading ? <span className='loader'></span> : cards}</>
+  function isValidEmail(text: string): boolean {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailPattern.test(text)
+  }
+
+  function handleEmailInput(text: string) {
+    setEmailInput(text)
+  }
+
+  return (
+    <>
+      {loading ? (
+        <span className='loader'></span>
+      ) : (
+        <div className='flex'>
+          <InputField
+            callback={handleEmailInput}
+            className='flex-grow'
+            active={true}
+            placeholder='Skriv epost for varsling...'
+          />
+          <Button
+            label='Følg reiser'
+						className='self-align-center ml-16'
+            callback={() => console.log('yoo')}
+            active={isValidEmail(emailInput)}
+          />
+        </div>
+      )}
+      {cards}
+    </>
+  )
 }
