@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import './Search.css'
 import { SearchLocation } from '../models/SearchLocation'
 import SuggestionsBox from './SuggestionsBox'
-import { getAutosuggestApi, makeAutosuggestUrl } from '../Api'
+import { getAutosuggestApi } from '../Api'
 
 export enum RoundState {
   Left = 'round-left',
