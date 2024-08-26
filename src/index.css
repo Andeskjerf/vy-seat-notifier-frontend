@@ -19,6 +19,7 @@
   --text-color: #000;
 
   --border-width: 1px;
+  --border-thick-width: 2px;
 
   --br-search: 12px;
   --br-button: 20px;
@@ -201,6 +202,10 @@ button:focus-visible {
   margin-left: 12px;
 }
 
+.ml-16 {
+  margin-left: 16px;
+}
+
 .text-label {
   font-size: 12px;
 }
@@ -258,9 +263,15 @@ button:focus-visible {
 }
 
 .border-hover {
+	box-sizing: border-box;
+
   border: var(--border-width) solid grey;
   transition-property: border;
   transition-duration: 100ms;
+}
+
+.border-hover:hover {
+  border: var(--border-width) solid rgb(var(--accent-color));
 }
 
 .border {
@@ -268,10 +279,6 @@ button:focus-visible {
 }
 
 .active-border {
-  border: var(--border-width) solid rgb(var(--accent-color));
-}
-
-.border-hover:hover {
   border: var(--border-width) solid rgb(var(--accent-color));
 }
 
@@ -413,9 +420,9 @@ button:focus-visible {
 }
 
 .pure-white-bg {
-	background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .max-width {
-	width: 100%;
+  width: 100%;
 }
