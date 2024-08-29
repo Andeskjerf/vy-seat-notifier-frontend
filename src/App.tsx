@@ -13,6 +13,7 @@ import {
   faCity,
   faTrainSubway,
   faArrowLeft,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 import { SearchLocation } from './models/SearchLocation'
 import Button from './components/Button'
@@ -40,10 +41,10 @@ class SearchState {
 }
 
 interface AppProps {
-	setPage: Function
+  setPage: Function
 }
 
-function App({ setPage }: AppProps) {
+export default function App({ setPage }: AppProps) {
   const [activeSearch, setActiveSearch] = useState<number>(-1)
   const [searchState, setSearchState] = useState<SearchState>(
     new SearchState(null, null),
@@ -116,13 +117,12 @@ function App({ setPage }: AppProps) {
             round={RoundState.Right}
           />
         </div>
-        <div className='mt-12'>
-          <Button
-            label='Søk'
-            active={searchState.bothValid()}
-            callback={() => buttonClick()}
-          />
-        </div>
+        <Button
+          className='mt-12'
+          label='Søk'
+          active={searchState.bothValid()}
+          callback={() => buttonClick()}
+        />
         <div className='selected-journeys-container flex flex-space-between'>
           <div className='flex'>
             {selectedJourneys.length > 0 ? (
@@ -173,8 +173,7 @@ function setFaIcons() {
     faFerry,
     faCity,
     faTrainSubway,
-		faArrowLeft,
+    faArrowLeft,
+		faCheck,
   )
 }
-
-export default App
