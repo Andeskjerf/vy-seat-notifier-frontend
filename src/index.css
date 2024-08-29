@@ -442,3 +442,7 @@ button:focus-visible {
 .heading {
 	font-size: 36px;
 }
+
+.drop-shadow {
+	filter: drop-shadow(3px 4px 2px rgb(0, 0, 0, 0.4))
+}
