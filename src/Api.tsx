@@ -52,19 +52,31 @@ export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
     body: JSON.stringify(journeys),
   })
 
-	if (response.status == 204) {
-		return {  }
-	}
+  if (response.status == 204) {
+    return {}
+  }
 
   const json = await response.json()
-	console.log(json)
+  console.log(json)
   let result: SeatsLayout = {}
 
   for (let key in json) {
     result[key] = json[key].map((entry) => Seats.fromJson(entry))
   }
-	
+
   return result
+}
+
+export async function apiMakeOrder(email: string, journeys: Journey[]): Promise<number> {
+  const response = await fetch(`${API_URL}/make_order`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email: email, journeys: journeys }),
+  })
+
+	return response.status
 }
 
 // passord: eksamen

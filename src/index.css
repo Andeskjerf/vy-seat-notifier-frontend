@@ -426,3 +426,19 @@ button:focus-visible {
 .max-width {
   width: 100%;
 }
+
+.green {
+	color: rgb(0, 181, 51);
+}
+
+.red {
+	color: rgb(200, 0, 0);
+}
+
+.yellow {
+	color: rgb(255, 199, 0);
+}
+
+.heading {
+	font-size: 36px;
+}
