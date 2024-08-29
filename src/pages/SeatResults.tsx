@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Journey } from '../models/Journey'
 import './SeatResults.css'
-import { apiMakeOrder, getSeatsApi, SeatsLayout } from '../Api'
+import { getSeatsApi, SeatsLayout } from '../Api'
 import SeatMap from '../components/SeatMap'
 import InputField from '../components/InputField'
 import Button from '../components/Button'
@@ -60,17 +60,6 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
     return emailPattern.test(text)
   }
 
-  function handleEmailInput(text: string) {
-    setEmailInput(text)
-  }
-
-  function makeOrder(email: string) {
-    setEmailInputted(true)
-    apiMakeOrder(email, selectedJourneys).then((res) => {
-      console.log(res)
-    })
-  }
-
   return (
     <>
       {loading ? (
@@ -78,7 +67,7 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
       ) : (
         <div className='flex'>
           <InputField
-            callback={handleEmailInput}
+            callback={setEmailInput}
             className='flex-grow'
             active={true}
             placeholder='Skriv epost for varsling...'
@@ -86,7 +75,7 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
           <Button
             label='Følg reiser'
             className='self-align-center ml-16'
-            callback={() => makeOrder(emailInput)}
+            callback={() => setEmailInputted(true)}
             active={isValidEmail(emailInput)}
           />
         </div>

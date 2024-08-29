@@ -1,13 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Journey } from '../models/Journey'
-import {
-  faCheck,
-  faQuestion,
-  faQuestionCircle,
-  faX,
-} from '@fortawesome/free-solid-svg-icons'
-import { useEffect, useState } from 'react'
+import { faCheck, faQuestion, faX } from '@fortawesome/free-solid-svg-icons'
+import { useEffect, useRef, useState } from 'react'
 import { apiMakeOrder } from '../Api'
+import './EmailConfirmed.css'
 
 interface EmailConfirmedProps {
   email: string
@@ -20,25 +16,22 @@ export default function EmailConfirmed({
 }: EmailConfirmedProps) {
   const [data, setData] = useState<number>(-1)
   const [loading, setLoading] = useState(true)
+  const initialized = useRef(false)
 
   useEffect(() => {
-    const apiCall = async () => {
-      setLoading(false)
-      setData(await apiMakeOrder(email, selectedJourneys))
-    }
+    if (!initialized.current) {
+      initialized.current = true
 
-    let innerLoading = false
+      const apiCall = async () => {
+        setData(await apiMakeOrder(email, selectedJourneys))
+        setLoading(false)
+      }
 
-    try {
-      if (!innerLoading) {
+      if (loading && data === -1) {
         apiCall()
       }
-    } catch (error) {
-      console.error(error)
-    } finally {
-      return () => (innerLoading = false)
     }
-  }, [])
+  }, [email])
 
   if (loading) {
     return <span className='loader'></span>
@@ -74,11 +67,11 @@ export default function EmailConfirmed({
 
   return (
     <>
-      <div className='white-bg round-both elevation text-black p-18'>
+      <div className='white-bg round-both elevation text-black p-18 email-confirmed-container'>
         <div className='flex'>
           <FontAwesomeIcon
             icon={icon[responseIndex]}
-            className={`${iconColor[responseIndex]} self-align-center p-18 heading`}
+            className={`${iconColor[responseIndex]} self-align-center p-18 heading drop-shadow`}
           />
           <div className='heading self-align-center'>
             {headerTexts[responseIndex]}
