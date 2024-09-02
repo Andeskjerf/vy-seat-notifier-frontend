@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Journey } from '../models/Journey'
 import './SeatResults.css'
 import { getSeatsApi, SeatsLayout } from '../Api'
@@ -18,6 +18,7 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
   const [loading, setLoading] = useState<boolean>(false)
   const [emailInputted, setEmailInputted] = useState<boolean>(false)
   const [emailInput, setEmailInput] = useState<string>('')
+  const totalAvailableSeats = useRef<number>(0)
 
   useEffect(() => {
     if (!loading && Object.keys(journeySeats).length == 0) {
@@ -37,6 +38,9 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
 
           return j1 - j2
         })
+        let seatCount: number = 0
+        Object.values(result).forEach((e) => (seatCount += e.numberOfSeats))
+        totalAvailableSeats.current = seatCount
         setJourneySeats(result)
         setLoading(false)
       })
@@ -87,6 +91,7 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
               <EmailConfirmed
                 email={emailInput}
                 selectedJourneys={selectedJourneys}
+                totalAvailableSeats={totalAvailableSeats.current}
               />
             </Overlay>,
             document.body,

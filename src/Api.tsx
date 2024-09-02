@@ -67,16 +67,24 @@ export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
   return result
 }
 
-export async function apiMakeOrder(email: string, journeys: Journey[]): Promise<number> {
+export async function apiMakeOrder(
+  email: string,
+  journeys: Journey[],
+  totalAvailableSeatCount: number,
+): Promise<number> {
   const response = await fetch(`${API_URL}/make_order`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email: email, journeys: journeys }),
+    body: JSON.stringify({
+      email: email,
+      journeys: journeys,
+      seatCount: totalAvailableSeatCount,
+    }),
   })
 
-	return response.status
+  return response.status
 }
 
 // passord: eksamen
