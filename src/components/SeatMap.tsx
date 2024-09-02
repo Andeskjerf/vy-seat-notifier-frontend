@@ -50,7 +50,7 @@ export default function SeatMap({ journey, seats }: SeatMapProps) {
             })
 
             return (
-              <div className='seats-container round-both pure-white-bg elevation mt-24 flex flex-column'>
+              <div className='seats-container pure-white-bg elevation mt-24 flex flex-column'>
                 <div className='text-black text-large text-medium flex flex-space-between p-18'>
                   <div>Vogn {entry.carNumber}</div>
                   <div>{entry.numberOfSeats}</div>
