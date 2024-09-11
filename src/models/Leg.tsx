@@ -14,6 +14,7 @@ export default class Leg {
   duration: Duration
   from: SearchLocation
   to: SearchLocation
+  seatCount: number | undefined
 
   constructor(
     enturId: string,
@@ -25,8 +26,8 @@ export default class Leg {
     departure: string,
     departureScheduled: string,
     duration: Duration,
-		from: SearchLocation,
-		to: SearchLocation,
+    from: SearchLocation,
+    to: SearchLocation,
   ) {
     this.enturId = enturId
     this.id = id
@@ -37,8 +38,8 @@ export default class Leg {
     this.departure = departure
     this.departureScheduled = departureScheduled
     this.duration = duration
-		this.from = from
-		this.to = to
+    this.from = from
+    this.to = to
   }
 
   static fromJson(json: any): Leg {
@@ -52,8 +53,8 @@ export default class Leg {
       json.departure,
       json.departure_scheduled,
       Duration.fromJson(json.duration),
-			SearchLocation.fromJson(json.from),
-			SearchLocation.fromJson(json.to),
+      SearchLocation.fromJson(json.from),
+      SearchLocation.fromJson(json.to),
     )
   }
 }
