@@ -8,9 +8,29 @@ import Button from '../components/Button'
 import { createPortal } from 'react-dom'
 import Overlay from '../components/Overlay'
 import EmailConfirmed from './EmailConfirmed'
+import Seats from '../models/Seats'
 
 interface SeatResultsProps {
   selectedJourneys: Journey[]
+}
+
+function getJourneyIndexFromLegId(
+  selectedJourneys: Journey[],
+  id: string,
+): number {
+  let journeyIndex = -1
+  for (let i = 0; i < selectedJourneys.length; i++) {
+    for (let l of selectedJourneys[i].legs) {
+      if (l.id == id) {
+        journeyIndex = i
+        break
+      }
+    }
+    if (journeyIndex) {
+      break
+    }
+  }
+  return journeyIndex
 }
 
 export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
@@ -18,29 +38,25 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
   const [loading, setLoading] = useState<boolean>(false)
   const [emailInputted, setEmailInputted] = useState<boolean>(false)
   const [emailInput, setEmailInput] = useState<string>('')
-  const totalAvailableSeats = useRef<number>(0)
+  const legAvailableSeats = useRef(new Map())
 
   useEffect(() => {
     if (!loading && Object.keys(journeySeats).length == 0) {
       setLoading(true)
       getSeatsApi(selectedJourneys).then((result) => {
-        Object.keys(result).sort((a, b) => {
-          let j1 = Math.floor(
-            new Date(
-              selectedJourneys.find((entry) => entry.id == a)?.departure,
-            ).getTime() / 1000,
+        Object.entries(result).forEach((e) => {
+          let seatCount = 0
+          let legId = e[0]
+          e[1].forEach((res: Seats) => {
+            seatCount += res.numberOfSeats
+          })
+          let index = getJourneyIndexFromLegId(selectedJourneys, legId)
+          let legIndex = selectedJourneys[index].legs.findIndex(
+            (leg) => leg.id == legId,
           )
-          let j2 = Math.floor(
-            new Date(
-              selectedJourneys.find((entry) => entry.id == b)?.departure,
-            ).getTime() / 1000,
-          )
-
-          return j1 - j2
+          selectedJourneys[index].legs[legIndex].seatCount = seatCount
+          legAvailableSeats.current.set(legId, seatCount)
         })
-        let seatCount: number = 0
-        Object.values(result).forEach((e) => (seatCount += e.numberOfSeats))
-        totalAvailableSeats.current = seatCount
         setJourneySeats(result)
         setLoading(false)
       })
@@ -50,11 +66,9 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
   const cards: JSX.Element[] = []
   if (journeySeats) {
     Object.keys(journeySeats).forEach((key) => {
+      let index = getJourneyIndexFromLegId(selectedJourneys, key)
       cards.push(
-        <SeatMap
-          journey={selectedJourneys.find((entry) => entry.id == key)}
-          seats={journeySeats[key]}
-        />,
+        <SeatMap journey={selectedJourneys[index]} seats={journeySeats[key]} />,
       )
     })
   }
@@ -91,7 +105,7 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
               <EmailConfirmed
                 email={emailInput}
                 selectedJourneys={selectedJourneys}
-                totalAvailableSeats={totalAvailableSeats.current}
+                legAvailableSeats={legAvailableSeats.current}
               />
             </Overlay>,
             document.body,

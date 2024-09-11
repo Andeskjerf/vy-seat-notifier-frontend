@@ -8,13 +8,13 @@ import './EmailConfirmed.css'
 interface EmailConfirmedProps {
   email: string
   selectedJourneys: Journey[]
-  totalAvailableSeats: number
+  legAvailableSeats: Map<string, number>
 }
 
 export default function EmailConfirmed({
   email,
   selectedJourneys,
-  totalAvailableSeats,
+  legAvailableSeats,
 }: EmailConfirmedProps) {
   const [data, setData] = useState<number>(-1)
   const [loading, setLoading] = useState<boolean>(true)
@@ -25,7 +25,9 @@ export default function EmailConfirmed({
       initialized.current = true
 
       const apiCall = async () => {
-        setData(await apiMakeOrder(email, selectedJourneys, totalAvailableSeats))
+        setData(
+          await apiMakeOrder(email, selectedJourneys, legAvailableSeats),
+        )
         setLoading(false)
       }
 

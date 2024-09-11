@@ -57,7 +57,6 @@ export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
   }
 
   const json = await response.json()
-  console.log(json)
   let result: SeatsLayout = {}
 
   for (let key in json) {
@@ -70,7 +69,7 @@ export async function getSeatsApi(journeys: Journey[]): Promise<SeatsLayout> {
 export async function apiMakeOrder(
   email: string,
   journeys: Journey[],
-  totalAvailableSeatCount: number,
+  legAvailableSeatCount: Map<string, number>,
 ): Promise<number> {
   const response = await fetch(`${API_URL}/make_order`, {
     method: 'POST',
@@ -80,7 +79,7 @@ export async function apiMakeOrder(
     body: JSON.stringify({
       email: email,
       journeys: journeys,
-      seatCount: totalAvailableSeatCount,
+      legSeatCount: Object.fromEntries(legAvailableSeatCount),
     }),
   })
 

@@ -174,6 +174,6 @@ function setFaIcons() {
     faCity,
     faTrainSubway,
     faArrowLeft,
-		faCheck,
+    faCheck,
   )
 }
