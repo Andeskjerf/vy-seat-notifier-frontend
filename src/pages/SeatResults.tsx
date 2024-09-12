@@ -26,7 +26,7 @@ function getJourneyIndexFromLegId(
         break
       }
     }
-    if (journeyIndex) {
+    if (journeyIndex != -1) {
       break
     }
   }
