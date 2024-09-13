@@ -7,6 +7,7 @@ import {
   faGhost,
   faPoo,
 } from '@fortawesome/free-solid-svg-icons'
+import { unsubscribeApi } from '../Api'
 
 interface Props {
   email: string
@@ -31,6 +32,17 @@ export default function Unsubscribe({ email }: Props) {
       setIsValid(ValidType.INVALID_EMAIL)
     }
     splitEmail.current = res[1]
+
+    const makeApiCall = async () => {
+      const response = await unsubscribeApi(splitEmail.current)
+      switch (response.status) {
+        case 404:
+          setIsValid(ValidType.NO_EMAIL)
+          break
+      }
+    }
+
+    makeApiCall()
   })
 
   const headerTexts = [

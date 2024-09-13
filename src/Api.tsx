@@ -86,4 +86,15 @@ export async function apiMakeOrder(
   return response.status
 }
 
+export async function unsubscribeApi(email: string): Promise<Response> {
+  const response = await fetch(`${API_URL}/unsubscribe?email=${email}`, {
+    method: 'DELETE',
+    headers: {
+      'Access-Control-Allow-Origin': API_URL,
+    },
+  })
+
+  return response
+}
+
 // passord: eksamen
