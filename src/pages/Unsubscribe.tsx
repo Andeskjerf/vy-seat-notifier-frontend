@@ -14,6 +14,7 @@ interface Props {
 }
 
 enum ValidType {
+  LOADING = -1,
   SUCCESS = 0,
   NO_EMAIL = 1,
   INVALID_EMAIL = 2,
@@ -21,7 +22,7 @@ enum ValidType {
 }
 
 export default function Unsubscribe({ email }: Props) {
-  const [isValid, setIsValid] = useState<ValidType>(0)
+  const [isValid, setIsValid] = useState<ValidType>(-1)
   const splitEmail = useRef<string>('')
 
   useEffect(() => {
@@ -60,6 +61,10 @@ export default function Unsubscribe({ email }: Props) {
     'Linken du har brukt inneholder feil, ingenting er gjort.',
   ]
   const index = isValid
+
+  if (isValid == ValidType.LOADING) {
+    return <span className='loader'></span>
+  }
 
   return (
     <>
