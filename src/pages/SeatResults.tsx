@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom'
 import Overlay from '../components/Overlay'
 import EmailConfirmed from './EmailConfirmed'
 import Seats from '../models/Seats'
+import { isValidEmail } from '../utils/string'
 
 interface SeatResultsProps {
   selectedJourneys: Journey[]
@@ -73,10 +74,6 @@ export default function SeatResults({ selectedJourneys }: SeatResultsProps) {
     })
   }
 
-  function isValidEmail(text: string): boolean {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailPattern.test(text)
-  }
 
   return (
     <>
