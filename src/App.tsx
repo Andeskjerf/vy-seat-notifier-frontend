@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import './App.css'
 import Search from './components/Search'
 import { RoundState } from './components/Search'
@@ -51,12 +51,14 @@ export default function App({ setPage }: AppProps) {
   )
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [selectedJourneys, setJourneys] = useState<Journey[]>([])
+  const showResults = useRef<boolean>(false)
 
   setFaIcons()
 
   function buttonClick() {
     if (!isSearching) {
       setIsSearching(true)
+      showResults.current = true
       setJourneys([])
     }
   }
@@ -149,16 +151,20 @@ export default function App({ setPage }: AppProps) {
           </div>
         </div>
       </div>
-      <div className='overflow-scroll flex-grow p-10'>
-        <SearchResults
-          setJourneys={addToJourneys}
-          searching={isSearching}
-          selectedJourneys={selectedJourneys}
-          setSearching={setIsSearching}
-          from={searchState.left}
-          to={searchState.right}
-        />
-      </div>
+      {showResults.current ? (
+        <div className='overflow-scroll flex-grow p-10'>
+          <SearchResults
+            setJourneys={addToJourneys}
+            searching={isSearching}
+            selectedJourneys={selectedJourneys}
+            setSearching={setIsSearching}
+            from={searchState.left}
+            to={searchState.right}
+          />
+        </div>
+      ) : (
+        ''
+      )}
     </div>
   )
 }
