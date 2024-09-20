@@ -3,6 +3,7 @@ import { SearchLocation } from '../models/SearchLocation'
 import { Journey } from '../models/Journey'
 import { getSearchApi } from '../Api'
 import JourneyCard from './JourneyCard'
+import Button from './Button'
 
 interface SearchResultProps {
   from: SearchLocation | null
@@ -15,7 +16,9 @@ interface SearchResultProps {
 
 function showDate(date: string): ReactElement {
   return (
-    <div className='text-medium text-large text-align-start mt-24 text-black'>{date}</div>
+    <div className='text-medium text-large text-align-start mt-24 text-black'>
+      {date}
+    </div>
   )
 }
 
@@ -29,6 +32,7 @@ export default function SearchResult({
 }: SearchResultProps) {
   const [hasSearched, setHasSearched] = useState<boolean>()
   const [results, setResults] = useState<Journey[]>([])
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (from && to && searching) {
@@ -40,6 +44,21 @@ export default function SearchResult({
       })
     }
   }, [from, to, searching])
+
+  const loadMoreJourneys = () => {
+    if (from && to) {
+      setLoading(true)
+      let date = results[results.length - 1].departure
+      getSearchApi(from, to, date).then((newResults) => {
+				// slice away the first result from API call
+				// it's the same as the last entry of results
+        setResults([...results, ...newResults.slice(1)])
+        setLoading(false)
+      })
+    } else {
+      alert('how did this happen')
+    }
+  }
 
   let lastDate: string | null = null
   const entries = results.map((entry, _) => {
@@ -63,5 +82,20 @@ export default function SearchResult({
     return <span className='loader'></span>
   }
 
-  return <>{entries}</>
+  return (
+    <>
+      {entries}
+      <div className='mt-24'>
+        {loading ? (
+          <span className='loader'></span>
+        ) : (
+          <Button
+            label='Last flere'
+            callback={() => loadMoreJourneys()}
+            active={true}
+          />
+        )}
+      </div>
+    </>
+  )
 }
