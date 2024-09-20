@@ -22,6 +22,7 @@ export async function getAutosuggestApi(
 export async function getSearchApi(
   from: SearchLocation,
   to: SearchLocation,
+  date: string,
 ): Promise<Journey[]> {
   const response = await fetch(`${API_URL}/search`, {
     method: 'POST',
@@ -29,7 +30,7 @@ export async function getSearchApi(
       'Access-Control-Allow-Origin': API_URL,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify([from, to]),
+    body: JSON.stringify([from, to, date]),
   })
 
   const json = await response.json()

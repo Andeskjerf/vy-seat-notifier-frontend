@@ -33,7 +33,7 @@ export default function SearchResult({
   useEffect(() => {
     if (from && to && searching) {
       setHasSearched(false)
-      getSearchApi(from, to).then((results) => {
+      getSearchApi(from, to, new Date().toISOString()).then((results) => {
         setResults(results)
         setHasSearched(true)
         setSearching(false)
