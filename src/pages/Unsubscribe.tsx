@@ -40,6 +40,9 @@ export default function Unsubscribe({ email }: Props) {
         case 404:
           setIsValid(ValidType.NO_EMAIL)
           break
+        case 200:
+          setIsValid(ValidType.SUCCESS)
+          break
       }
     }
 
