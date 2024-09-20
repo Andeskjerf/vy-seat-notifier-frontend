@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 import { SearchLocation } from '../models/SearchLocation'
 import { Journey } from '../models/Journey'
 import { getSearchApi } from '../Api'
@@ -10,14 +10,20 @@ interface SearchResultProps {
   searching: boolean
   setSearching: Function
   setJourneys: Function
-	selectedJourneys: Journey[]
+  selectedJourneys: Journey[]
+}
+
+function showDate(date: string): ReactElement {
+  return (
+    <div className='text-medium text-large text-align-start mt-24 text-black'>{date}</div>
+  )
 }
 
 export default function SearchResult({
   from,
   to,
   searching,
-	selectedJourneys,
+  selectedJourneys,
   setSearching,
   setJourneys,
 }: SearchResultProps) {
@@ -35,24 +41,27 @@ export default function SearchResult({
     }
   }, [from, to, searching])
 
+  let lastDate: string | null = null
   const entries = results.map((entry, _) => {
-    return (
-      <JourneyCard
-        setJourneys={() => setJourneys(entry)}
-        key={entry.id}
-				selectedJourneys={selectedJourneys}
-        journey={entry}
-      />
+    let date = entry.departure.split('T')[0]
+    let res = (
+      <>
+        {lastDate != date ? showDate(date) : ''}
+        <JourneyCard
+          setJourneys={() => setJourneys(entry)}
+          key={entry.id}
+          selectedJourneys={selectedJourneys}
+          journey={entry}
+        />
+      </>
     )
+    lastDate = date
+    return res
   })
 
-  return (
-    <>
-      {!hasSearched && searching ? (
-        <span className='loader'></span>
-      ) : (
-        <>{entries}</>
-      )}
-    </>
-  )
+  if (!hasSearched && searching) {
+    return <span className='loader'></span>
+  }
+
+  return <>{entries}</>
 }
