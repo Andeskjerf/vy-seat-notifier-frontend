@@ -30,16 +30,13 @@ export default function SearchResult({
   setSearching,
   setJourneys,
 }: SearchResultProps) {
-  const [hasSearched, setHasSearched] = useState<boolean>()
   const [results, setResults] = useState<Journey[]>([])
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (from && to && searching) {
-      setHasSearched(false)
       getSearchApi(from, to, new Date().toISOString()).then((results) => {
         setResults(results)
-        setHasSearched(true)
         setSearching(false)
       })
     }
@@ -50,8 +47,8 @@ export default function SearchResult({
       setLoading(true)
       let date = results[results.length - 1].departure
       getSearchApi(from, to, date).then((newResults) => {
-				// slice away the first result from API call
-				// it's the same as the last entry of results
+        // slice away the first result from API call
+        // it's the same as the last entry of results
         setResults([...results, ...newResults.slice(1)])
         setLoading(false)
       })
@@ -78,7 +75,7 @@ export default function SearchResult({
     return res
   })
 
-  if (!hasSearched && searching) {
+  if (searching) {
     return <span className='loader'></span>
   }
 
