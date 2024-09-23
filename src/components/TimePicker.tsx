@@ -16,13 +16,17 @@ export default function TimePicker({}: Props) {
   const [minute, setMinute] = useState<number>(date.getMinutes())
 
   const chevronClick = (increment: boolean) => {
+    let _minute = minute
+    let _hour = hour
+
     if (minute > 0 && minute < 30) {
-      setMinute(increment ? 30 : 0)
+      _minute = increment ? 30 : 0
     } else if (minute > 30 && minute < 60) {
-      setMinute(increment ? 0 : 30)
+      _minute = increment ? 0 : 30
+      if (increment) {
+        _hour += 1
+      }
     } else {
-      let _minute = minute
-      let _hour = hour
       increment ? (_minute += 30) : (_minute -= 30)
       if (_minute >= 60) {
         _hour += 1
@@ -31,16 +35,15 @@ export default function TimePicker({}: Props) {
         _hour -= 1
         _minute = 30
       }
-
-      if (_hour < 0) {
-        _hour = 23
-      } else if (_hour > 23) {
-        _hour = 0
-      }
-
-      setHour(_hour)
-      setMinute(_minute)
     }
+    if (_hour < 0) {
+      _hour = 23
+    } else if (_hour > 23) {
+      _hour = 0
+    }
+
+    setHour(_hour)
+    setMinute(_minute)
   }
 
   return (
