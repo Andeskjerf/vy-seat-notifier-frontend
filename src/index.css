@@ -39,7 +39,6 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  /* min-height: 100vh; */
 }
 
 h1 {
@@ -104,6 +103,10 @@ button:focus-visible {
   padding: 6px;
 }
 
+.p-8 {
+  padding: 8px;
+}
+
 .plr-12 {
   --size: 12px;
   padding-left: var(--size);
@@ -142,6 +145,11 @@ button:focus-visible {
   padding-bottom: 18px;
 }
 
+.ptb-8 {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
 .pl-18 {
   padding-left: 18px;
 }
@@ -150,8 +158,16 @@ button:focus-visible {
   padding-right: 6px;
 }
 
+.pr-8 {
+  padding-right: 8px;
+}
+
 .pl-6 {
   padding-left: 6px;
+}
+
+.pl-8 {
+  padding-left: 8px;
 }
 
 .m-6 {
@@ -263,7 +279,7 @@ button:focus-visible {
 }
 
 .border-hover {
-	box-sizing: border-box;
+  box-sizing: border-box;
 
   border: var(--border-width) solid grey;
   transition-property: border;
@@ -292,6 +308,10 @@ button:focus-visible {
 
 .white-bg {
   background-color: var(--white-bg);
+}
+
+.width-fit-content {
+  width: fit-content;
 }
 
 .flex {
@@ -428,21 +448,21 @@ button:focus-visible {
 }
 
 .green {
-	color: rgb(0, 181, 51);
+  color: rgb(0, 181, 51);
 }
 
 .red {
-	color: rgb(200, 0, 0);
+  color: rgb(200, 0, 0);
 }
 
 .yellow {
-	color: rgb(255, 199, 0);
+  color: rgb(255, 199, 0);
 }
 
 .heading {
-	font-size: 36px;
+  font-size: 36px;
 }
 
 .drop-shadow {
-	filter: drop-shadow(3px 4px 2px rgb(0, 0, 0, 0.4))
+  filter: drop-shadow(3px 4px 2px rgb(0, 0, 0, 0.4));
 }

@@ -20,6 +20,7 @@ import Button from './components/Button'
 import SearchResults from './components/SearchResults'
 import { Journey } from './models/Journey'
 import SelectedJourney from './components/SelectedJourney'
+import TimePicker from './components/TimePicker'
 
 class SearchState {
   left: SearchLocation | null
@@ -118,6 +119,10 @@ export default function App({ setPage }: AppProps) {
             isActive={activeSearch == 1}
             round={RoundState.Right}
           />
+        </div>
+        <div className='content-align-start'>
+          <input type='date' value={new Date().toISOString().split('T')[0]} />
+					<TimePicker />
         </div>
         <Button
           className='mt-12'

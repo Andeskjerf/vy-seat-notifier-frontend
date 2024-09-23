@@ -1,0 +1,14 @@
+.chevron-btn {
+  font-size: 8px;
+  border-radius: var(--br-search);
+  margin: 6px;
+  padding-left: 6px;
+
+  transition-duration: 75ms;
+  transition-property: background-color;
+  transition-timing-function: ease-in-out;
+}
+
+.chevron-btn:hover {
+  background-color: rgba(var(--accent-color), 0.75);
+}
