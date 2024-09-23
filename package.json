@@ -10,25 +10,26 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-common-types": "^6.6.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@rsbuild/plugin-react": "^1.0.2",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "typescript-language-server": "^4.3.3"
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.9.0",
+    "@eslint/js": "^9.11.0",
     "@rsbuild/core": "^1.0.5",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "eslint": "^9.9.0",
-    "eslint-plugin-react-hooks": "^5.1.0-rc.0",
-    "eslint-plugin-react-refresh": "^0.4.9",
+    "eslint": "^9.11.0",
+    "eslint-plugin-react-hooks": "^5.1.0-rc-fb9a90fa48-20240614",
+    "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
     "typescript": "^5.6.2",
-    "typescript-eslint": "^8.5.0"
+    "typescript-eslint": "^8.6.0",
+    "typescript-language-server": "^4.3.3"
   }
 }
