@@ -15,40 +15,34 @@ export default function TimePicker({}: Props) {
   const [hour, setHour] = useState<number>(date.getHours())
   const [minute, setMinute] = useState<number>(date.getMinutes())
 
-  const chevronClick = (increment: boolean) => {
-    let _minute = minute
-    let _hour = hour
+  const changeTime = (increment: boolean) => {
+    let totalMinutes = hour * 60 + minute
+    const remainder = totalMinutes % 60
 
-    if (minute > 0 && minute < 30) {
-      _minute = increment ? 30 : 0
-    } else if (minute > 30 && minute < 60) {
-      _minute = increment ? 0 : 30
-      if (increment) {
-        _hour += 1
-      }
+    if (remainder > 0 && remainder < 30) {
+      totalMinutes += increment ? 30 - remainder : -remainder
+    } else if (remainder > 30 && remainder < 60) {
+      totalMinutes += increment ? 60 - remainder : 30 - remainder
     } else {
-      increment ? (_minute += 30) : (_minute -= 30)
-      if (_minute >= 60) {
-        _hour += 1
-        _minute = 0
-      } else if (_minute < 0) {
-        _hour -= 1
-        _minute = 30
-      }
-    }
-    if (_hour < 0) {
-      _hour = 23
-    } else if (_hour > 23) {
-      _hour = 0
+      totalMinutes += increment ? 30 : -30
     }
 
-    setHour(_hour)
-    setMinute(_minute)
+    if (totalMinutes < 0) {
+      totalMinutes = 24 * 60 - 30
+    } else if (totalMinutes >= 24 * 60) {
+      totalMinutes = 0
+    }
+
+    setMinute(totalMinutes % 60)
+    setHour(Math.floor(totalMinutes / 60))
   }
 
   return (
     <div className='round-both white-bg width-fit-content flex border'>
-      <Chevron icon={faChevronLeft} onClick={() => chevronClick(false)} />
+      <Chevron
+        icon={faChevronLeft}
+        onClick={() => changeTime(false)}
+      />
       <div className='flex text-black no-select ptb-8'>
         <div className='hover round-both'>{String(hour).padStart(2, '0')}</div>
         <div>:</div>
@@ -56,7 +50,10 @@ export default function TimePicker({}: Props) {
           {String(minute).padStart(2, '0')}
         </div>
       </div>
-      <Chevron icon={faChevronRight} onClick={() => chevronClick(true)} />
+      <Chevron
+        icon={faChevronRight}
+        onClick={() => changeTime(true)}
+      />
     </div>
   )
 }
