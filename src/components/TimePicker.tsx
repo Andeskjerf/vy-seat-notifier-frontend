@@ -97,38 +97,25 @@ export default function TimePicker({}: Props) {
 
   return (
     <div className='round-both white-bg width-fit-content flex border'>
-      <Chevron
-        id='time_hour'
-        icon={faChevronLeft}
-        onClick={() => changeTime(false)}
-      />
+      <Chevron icon={faChevronLeft} onClick={() => changeTime(false)} />
       <div className='flex text-black no-select ptb-8'>
         <TimeInput time={hour} id='hour_input' focusElem={focusElement} />
         <div>:</div>
         <TimeInput time={minute} id='minute_input' focusElem={focusElement} />
       </div>
-      <Chevron
-        id='time_minute'
-        icon={faChevronRight}
-        onClick={() => changeTime(true)}
-      />
+      <Chevron icon={faChevronRight} onClick={() => changeTime(true)} />
     </div>
   )
 }
 
 interface ChevronProps {
   icon: IconDefinition
-  id: string
   onClick: Function
 }
 
-function Chevron({ icon, id, onClick }: ChevronProps) {
+function Chevron({ icon, onClick }: ChevronProps) {
   return (
-    <div
-      id={id}
-      className='flex chevron-btn pointer-cursor'
-      onClick={() => onClick()}
-    >
+    <div className='flex chevron-btn pointer-cursor' onClick={() => onClick()}>
       <FontAwesomeIcon
         className='text-black self-align-center pr-8 '
         icon={icon}
