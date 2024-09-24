@@ -99,9 +99,19 @@ export default function TimePicker({}: Props) {
     <div className='round-both white-bg width-fit-content flex border'>
       <Chevron icon={faChevronLeft} onClick={() => changeTime(false)} />
       <div className='flex text-black no-select ptb-8'>
-        <TimeInput time={hour} id='hour_input' focusElem={focusElement} />
+        <TimeInput
+          time={hour}
+          id='hour_input'
+          focusElem={focusElement}
+          unfocusElem={unfocusElement}
+        />
         <div>:</div>
-        <TimeInput time={minute} id='minute_input' focusElem={focusElement} />
+        <TimeInput
+          time={minute}
+          id='minute_input'
+          focusElem={focusElement}
+          unfocusElem={unfocusElement}
+        />
       </div>
       <Chevron icon={faChevronRight} onClick={() => changeTime(true)} />
     </div>
@@ -128,14 +138,16 @@ interface TimeInputProps {
   time: number
   id: string
   focusElem: Function
+  unfocusElem: Function
 }
 
-function TimeInput({ time, id, focusElem }: TimeInputProps) {
+function TimeInput({ time, id, focusElem, unfocusElem }: TimeInputProps) {
   return (
     <div
       id={id}
       tabIndex={0}
-      onClick={(elem) => focusElem(elem.currentTarget)}
+      onFocus={(elem) => focusElem(elem.currentTarget)}
+      onBlur={() => unfocusElem()}
       className='hover round-both'
     >
       {String(time).padStart(2, '0')}
