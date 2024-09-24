@@ -12,3 +12,7 @@
 .chevron-btn:hover {
   background-color: rgba(var(--accent-color), 0.75);
 }
+
+.selected-input {
+	background-color: rgba(var(--accent-color), 0.75);
+}

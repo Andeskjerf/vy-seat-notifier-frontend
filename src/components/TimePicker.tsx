@@ -4,8 +4,9 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './TimePicker.css'
+import { isCharNumeric } from '../utils/string'
 
 interface Props {}
 
@@ -14,8 +15,17 @@ export default function TimePicker({}: Props) {
 
   const [hour, setHour] = useState<number>(date.getHours())
   const [minute, setMinute] = useState<number>(date.getMinutes())
+  const [focused, setFocused] = useState<HTMLDivElement>()
+  const timeInput = useRef<number[]>([0, 0])
+  const timeIndex = useRef<number>(1)
 
   const changeTime = (increment: boolean) => {
+    // we want to unfocus any of the inputs if they're focused
+    if (focused != undefined) {
+      unfocusElement()
+      setFocused(undefined)
+    }
+
     let totalMinutes = hour * 60 + minute
     const remainder = totalMinutes % 60
 
@@ -37,20 +47,65 @@ export default function TimePicker({}: Props) {
     setHour(Math.floor(totalMinutes / 60))
   }
 
+  const handleTimeInput = (text: KeyboardEvent) => {
+    if (!focused) throw 'there is no focused element'
+    if (!isCharNumeric(text.key)) return
+
+    const isHourInput = focused.id == 'hour_input'
+
+    const key = Number.parseInt(text.key)
+    const i = timeIndex.current
+    if (
+      (isHourInput && i == 0 && key > 2) ||
+      (isHourInput && i == 1 && timeInput.current[0] == 2 && key > 3) ||
+      (!isHourInput && i == 0 && key > 5)
+    ) {
+      return
+    }
+
+    timeInput.current[i] = key
+    timeIndex.current = i == 1 ? 0 : 1
+
+    focused.innerText = timeInput.current.join('')
+  }
+
+  const unfocusElement = () => {
+    focused?.classList.remove('selected-input')
+    focused?.removeEventListener('keydown', handleTimeInput)
+  }
+
+  const focusElement = (elem: HTMLDivElement) => {
+    unfocusElement()
+
+    if (elem == focused) {
+      setFocused(undefined)
+      return
+    }
+
+    setFocused(elem)
+  }
+
+  useEffect(() => {
+    timeInput.current = [0, 0]
+    timeIndex.current = 1
+    focused?.classList.add('selected-input')
+    focused?.addEventListener('keydown', handleTimeInput)
+  }, [focused])
+
   return (
     <div className='round-both white-bg width-fit-content flex border'>
       <Chevron
+        id='time_hour'
         icon={faChevronLeft}
         onClick={() => changeTime(false)}
       />
       <div className='flex text-black no-select ptb-8'>
-        <div className='hover round-both'>{String(hour).padStart(2, '0')}</div>
+        <TimeInput time={hour} id='hour_input' focusElem={focusElement} />
         <div>:</div>
-        <div className='hover round-both'>
-          {String(minute).padStart(2, '0')}
-        </div>
+        <TimeInput time={minute} id='minute_input' focusElem={focusElement} />
       </div>
       <Chevron
+        id='time_minute'
         icon={faChevronRight}
         onClick={() => changeTime(true)}
       />
@@ -60,16 +115,40 @@ export default function TimePicker({}: Props) {
 
 interface ChevronProps {
   icon: IconDefinition
+  id: string
   onClick: Function
 }
 
-function Chevron({ icon, onClick }: ChevronProps) {
+function Chevron({ icon, id, onClick }: ChevronProps) {
   return (
-    <div className='flex chevron-btn pointer-cursor' onClick={() => onClick()}>
+    <div
+      id={id}
+      className='flex chevron-btn pointer-cursor'
+      onClick={() => onClick()}
+    >
       <FontAwesomeIcon
         className='text-black self-align-center pr-8 '
         icon={icon}
       />
+    </div>
+  )
+}
+
+interface TimeInputProps {
+  time: number
+  id: string
+  focusElem: Function
+}
+
+function TimeInput({ time, id, focusElem }: TimeInputProps) {
+  return (
+    <div
+      id={id}
+      tabIndex={0}
+      onClick={(elem) => focusElem(elem.currentTarget)}
+      className='hover round-both'
+    >
+      {String(time).padStart(2, '0')}
     </div>
   )
 }
