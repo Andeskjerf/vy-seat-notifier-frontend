@@ -17,7 +17,6 @@ export default function TimePicker({}: Props) {
   const [minute, setMinute] = useState<number>(date.getMinutes())
   const [focused, setFocused] = useState<HTMLDivElement>()
   const timeInput = useRef<number[]>([0, 0])
-  const timeIndex = useRef<number>(1)
 
   const changeTime = (increment: boolean) => {
     // we want to unfocus any of the inputs if they're focused
@@ -54,17 +53,16 @@ export default function TimePicker({}: Props) {
     const isHourInput = focused.id == 'hour_input'
 
     const key = Number.parseInt(text.key)
-    const i = timeIndex.current
     if (
-      (isHourInput && i == 0 && key > 2) ||
-      (isHourInput && i == 1 && timeInput.current[0] == 2 && key > 3) ||
-      (!isHourInput && i == 0 && key > 5)
+      (isHourInput && timeInput.current[1] > 2) ||
+      (isHourInput && timeInput.current[1] == 2 && key > 3) ||
+      (!isHourInput && timeInput.current[1] > 5)
     ) {
       return
     }
 
-    timeInput.current[i] = key
-    timeIndex.current = i == 1 ? 0 : 1
+    timeInput.current[0] = timeInput.current[1]
+    timeInput.current[1] = key
 
     focused.innerText = timeInput.current.join('')
   }
@@ -87,7 +85,6 @@ export default function TimePicker({}: Props) {
 
   useEffect(() => {
     timeInput.current = [0, 0]
-    timeIndex.current = 1
     focused?.classList.add('selected-input')
     focused?.addEventListener('keydown', handleTimeInput)
   }, [focused])
