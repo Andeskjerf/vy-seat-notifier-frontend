@@ -17,6 +17,7 @@ export default function TimePicker({}: Props) {
   const [minute, setMinute] = useState<number>(date.getMinutes())
   const [focused, setFocused] = useState<HTMLDivElement>()
   const timeInput = useRef<number[]>([0, 0])
+  const timeInputTimeout = useRef<number>()
 
   const changeTime = (increment: boolean) => {
     // we want to unfocus any of the inputs if they're focused
@@ -65,6 +66,11 @@ export default function TimePicker({}: Props) {
     timeInput.current[1] = key
 
     focused.innerText = timeInput.current.join('')
+
+    clearTimeout(timeInputTimeout.current)
+    timeInputTimeout.current = setTimeout(() => {
+      timeInput.current = [0, 0]
+    }, 500)
   }
 
   const unfocusElement = () => {
