@@ -84,6 +84,7 @@ export default function TimePicker({ setTimeCallback }: Props) {
   )
 
   const unfocusElement = () => {
+    setFocused(undefined)
     focused?.classList.remove('selected-input')
     focused?.removeEventListener('keydown', handleTimeInput)
   }
