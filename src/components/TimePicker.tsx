@@ -4,7 +4,7 @@ import {
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './TimePicker.css'
 import { isCharNumeric } from '../utils/string'
 
@@ -47,31 +47,39 @@ export default function TimePicker({}: Props) {
     setHour(Math.floor(totalMinutes / 60))
   }
 
-  const handleTimeInput = (text: KeyboardEvent) => {
-    if (!focused) throw 'there is no focused element'
-    if (!isCharNumeric(text.key)) return
+  const handleTimeInput = useCallback(
+    (text: KeyboardEvent) => {
+      if (!focused) throw 'there is no focused element'
+      if (!isCharNumeric(text.key)) return
 
-    const isHourInput = focused.id == 'hour_input'
+      const isHourInput = focused.id == 'hour_input'
 
-    const key = Number.parseInt(text.key)
-    if (
-      (isHourInput && timeInput.current[1] > 2) ||
-      (isHourInput && timeInput.current[1] == 2 && key > 3) ||
-      (!isHourInput && timeInput.current[1] > 5)
-    ) {
-      return
-    }
+      const key = Number.parseInt(text.key)
+      if (
+        (isHourInput && timeInput.current[1] > 2) ||
+        (isHourInput && timeInput.current[1] == 2 && key > 3) ||
+        (!isHourInput && timeInput.current[1] > 5)
+      ) {
+        return
+      }
 
-    timeInput.current[0] = timeInput.current[1]
-    timeInput.current[1] = key
+      timeInput.current[0] = timeInput.current[1]
+      timeInput.current[1] = key
 
-    focused.innerText = timeInput.current.join('')
+      focused.innerText = timeInput.current.join('')
+      if (isHourInput) {
+        setHour(Number.parseInt(focused.innerText))
+      } else {
+        setMinute(Number.parseInt(focused.innerText))
+      }
 
-    clearTimeout(timeInputTimeout.current)
-    timeInputTimeout.current = setTimeout(() => {
-      timeInput.current = [0, 0]
-    }, 500)
-  }
+      clearTimeout(timeInputTimeout.current)
+      timeInputTimeout.current = setTimeout(() => {
+        timeInput.current = [0, 0]
+      }, 500)
+    },
+    [focused],
+  )
 
   const unfocusElement = () => {
     focused?.classList.remove('selected-input')
@@ -91,6 +99,8 @@ export default function TimePicker({}: Props) {
 
   useEffect(() => {
     timeInput.current = [0, 0]
+    if (focused == undefined) return
+
     focused?.classList.add('selected-input')
     focused?.addEventListener('keydown', handleTimeInput)
   }, [focused])
@@ -146,7 +156,7 @@ function TimeInput({ time, id, focusElem, unfocusElem }: TimeInputProps) {
     <div
       id={id}
       tabIndex={0}
-      onFocus={(elem) => focusElem(elem.currentTarget)}
+      onClick={(elem) => focusElem(elem.currentTarget)}
       onBlur={() => unfocusElem()}
       className='hover round-both'
     >
