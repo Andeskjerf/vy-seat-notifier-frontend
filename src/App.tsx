@@ -21,6 +21,7 @@ import SearchResults from './components/SearchResults'
 import { Journey } from './models/Journey'
 import SelectedJourney from './components/SelectedJourney'
 import TimePicker from './components/TimePicker'
+import { padNumber } from './utils/string'
 
 class SearchState {
   left: SearchLocation | null
@@ -110,6 +111,10 @@ export default function App({ setPage }: AppProps) {
     }
   }
 
+  const dateTimeToISO = (): string => {
+    return `${selectedDate}T${padNumber(selectedTime[0].toString())}:${padNumber(selectedTime[1].toString())}:00.000Z`
+  }
+
   return (
     <div className='flex flex-column'>
       <div>
@@ -136,7 +141,7 @@ export default function App({ setPage }: AppProps) {
             onChange={(event: ChangeEvent<HTMLInputElement>) =>
               setSelectedDate(event.target.value)
             }
-            value={new Date().toISOString().split('T')[0]}
+            value={selectedDate}
           />
           <TimePicker setTimeCallback={setSelectedTime} />
         </div>
@@ -181,6 +186,7 @@ export default function App({ setPage }: AppProps) {
             setSearching={setIsSearching}
             from={searchState.left}
             to={searchState.right}
+            isoDate={dateTimeToISO()}
           />
         </div>
       ) : (

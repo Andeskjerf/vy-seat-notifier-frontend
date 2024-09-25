@@ -8,6 +8,7 @@ import Button from './Button'
 interface SearchResultProps {
   from: SearchLocation | null
   to: SearchLocation | null
+  isoDate: string
   searching: boolean
   setSearching: Function
   setJourneys: Function
@@ -25,6 +26,7 @@ function showDate(date: string): ReactElement {
 export default function SearchResult({
   from,
   to,
+  isoDate,
   searching,
   selectedJourneys,
   setSearching,
@@ -35,7 +37,7 @@ export default function SearchResult({
 
   useEffect(() => {
     if (from && to && searching) {
-      getSearchApi(from, to, new Date().toISOString()).then((results) => {
+      getSearchApi(from, to, isoDate).then((results) => {
         setResults(results)
         setSearching(false)
       })
