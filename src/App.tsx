@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import './App.css'
 import Search from './components/Search'
 import { RoundState } from './components/Search'
@@ -52,6 +52,15 @@ export default function App({ setPage }: AppProps) {
   )
   const [isSearching, setIsSearching] = useState<boolean>(false)
   const [selectedJourneys, setJourneys] = useState<Journey[]>([])
+
+  const now = new Date()
+  const [selectedTime, setSelectedTime] = useState<number[]>([
+    now.getHours(),
+    now.getMinutes(),
+  ])
+  const [selectedDate, setSelectedDate] = useState<string>(
+    now.toISOString().split('T')[0],
+  )
   const showResults = useRef<boolean>(false)
 
   setFaIcons()
@@ -120,9 +129,16 @@ export default function App({ setPage }: AppProps) {
             round={RoundState.Right}
           />
         </div>
-        <div className='content-align-start'>
-          <input type='date' value={new Date().toISOString().split('T')[0]} />
-					<TimePicker />
+        <div className='content-align-start flex mt-12'>
+          <input
+            type='date'
+            className='mr-10 round-both'
+            onChange={(event: ChangeEvent<HTMLInputElement>) =>
+              setSelectedDate(event.target.value)
+            }
+            value={new Date().toISOString().split('T')[0]}
+          />
+          <TimePicker setTimeCallback={setSelectedTime} />
         </div>
         <Button
           className='mt-12'
