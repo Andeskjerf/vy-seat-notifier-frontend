@@ -8,9 +8,11 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import './TimePicker.css'
 import { isCharNumeric } from '../utils/string'
 
-interface Props {}
+interface Props {
+  setTimeCallback: Function
+}
 
-export default function TimePicker({}: Props) {
+export default function TimePicker({ setTimeCallback }: Props) {
   const date = new Date()
 
   const [hour, setHour] = useState<number>(date.getHours())
@@ -104,6 +106,10 @@ export default function TimePicker({}: Props) {
     focused?.classList.add('selected-input')
     focused?.addEventListener('keydown', handleTimeInput)
   }, [focused])
+
+  useEffect(() => {
+    setTimeCallback([hour, minute])
+  }, [hour, minute])
 
   return (
     <div className='round-both white-bg width-fit-content flex border'>
